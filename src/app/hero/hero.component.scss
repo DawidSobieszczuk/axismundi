@@ -1,0 +1,12 @@
+@use '../../scss/abstract/'  as *;
+
+:host {
+    display: none;
+    background-color: color('black');
+    color: color('white');
+    justify-content: center;
+
+    @include breakpoint('small') {
+        display: flex;
+      }
+}

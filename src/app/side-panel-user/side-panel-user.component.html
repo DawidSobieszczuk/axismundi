@@ -1,0 +1,25 @@
+<mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+        <mat-panel-title>Użytkownik</mat-panel-title>
+    </mat-expansion-panel-header>
+    <form [formGroup]="form" (ngSubmit)="formSubmit()">
+        <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email">
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password">
+            <button mat-icon-button matSuffix (click)="showPassword = !showPassword"><i *ngIf="!showPassword" class="fa-solid fa-eye"></i><i *ngIf="showPassword" class="fa-solid fa-eye-slash"></i></button>
+        </mat-form-field>
+        <br>
+        <mat-checkbox formControlName="newPassword" (change)="formChangeNewPassword($event.checked)">Nowe hasło</mat-checkbox>
+        <div *ngIf="errorMessage" class="error-form">{{ errorMessage }}</div>
+        <div *ngIf="succesMessage" class="succes-form">{{ succesMessage }}</div>
+        <mat-action-row>
+            <button mat-raised-button (click)="formLogout()">Wyloguj</button>
+            <button mat-raised-button type="submit" [disabled]="user.invalid">Zapisz</button>
+        </mat-action-row>
+    </form>
+</mat-expansion-panel>

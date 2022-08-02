@@ -1,0 +1,16 @@
+@use 'variables' as *;
+
+/// Get color from global map
+/// @author Dawid Sobieszczuk
+/// @param {String} $name - Color name
+/// @require $colors
+@function color($name) {
+    $map: $colors;
+  
+    @if map-has-key($map, $name) {
+      @return map-get($map, $name);
+    } @else {
+      @error "Unfortunately, no value could be retrieved from `#{map-get($colors, 'pure')}`. "
+          + "Available breakpoints are: #{map-keys(map-get($colors, 'pure'))}.";
+    }
+  }

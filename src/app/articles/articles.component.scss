@@ -1,0 +1,28 @@
+@use '../../scss/abstract/'  as *;
+
+:host {
+    flex-wrap: wrap;
+}
+
+.article {
+    cursor: pointer;
+    text-decoration: none;
+    padding: 1rem;
+    width: 100%;
+
+    @include breakpoint('small') {
+        width: 50%;
+    }
+
+    @include breakpoint('large') {
+        width: 25%;
+    }
+}
+
+.draft {
+    opacity: 0.35;
+}
+
+.paginator {
+    flex: 100%;
+}

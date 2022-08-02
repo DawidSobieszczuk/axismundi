@@ -1,0 +1,70 @@
+@use 'scss/abstract' as *;
+
+@import 'scss/normalize';
+@import 'scss/reset';
+
+// fontawesome
+@import "fontawesome/scss/fontawesome.scss";
+@import "fontawesome/scss/brands.scss";
+@import "fontawesome/scss/regular.scss";
+@import "fontawesome/scss/solid.scss";
+
+// Material Custom Theme
+@import "material-theme.scss";
+
+// ngx quill
+@import '~quill/dist/quill.snow.css';
+
+.container {
+    margin: 0 auto;
+    max-width: $container-width;
+
+    &--full {
+      max-width: 100%;
+    }
+  
+    &--flex {
+      display: flex;
+  
+      flex-basis: inherit;
+      flex: inherit;
+      flex-direction: inherit;
+      flex-wrap: inherit;
+      flex-flow: inherit;
+      justify-content: inherit;
+      align-items: inherit;
+      align-content: inherit;
+    }
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-color: color('white');
+    color: color('black');
+  }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+main {
+  display: flex;
+  min-height: 100vh;
+}
+
+.error-form {
+  margin: 1rem;
+  padding: 1rem;
+  border: 1px solid color('warn');
+  color: color('warn');
+}
+
+.succes-form {
+  margin: 1rem;
+  padding: 1rem;
+  border: 1px solid color('success');
+  color: color('success');
+}
