@@ -8,11 +8,6 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./article.component.scss']
 })
 export class ArticleComponent implements OnInit {
-
-  quillStyle = {
-    'min-height':'100vh'
-  };
-
   article!: any;
 
   constructor(private route: ActivatedRoute, private apiService: ApiService) { }

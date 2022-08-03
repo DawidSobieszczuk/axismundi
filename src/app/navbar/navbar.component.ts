@@ -8,12 +8,15 @@ import { ApiService } from '../services/api.service';
 })
 export class NavbarComponent implements OnInit {
 
-  logoSrc = 'storage/logo.png';
+  logoSrc = 'ng/assets/logo.png'; // default
   menuItems!:[];
 
   constructor(private api:ApiService) { }
 
   ngOnInit(): void {
+    this.api.getOption('logo').subscribe({
+      next: (v) => this.logoSrc = v.data.value
+    })
   }
 
 }

@@ -8,12 +8,14 @@ import { ApiService } from '../services/api.service';
 })
 export class HeroComponent implements OnInit {
 
-  image!: string;
+  image: string = 'ng/assets/hero.png'; // default
 
   constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
-    this.apiService.getOption('hero-image').subscribe({ next: (v) => this.image = v.data.value });
+    this.apiService.getOption('hero-image').subscribe({
+       next: (v) => this.image = v.data.value
+      });
   }
 
 }

@@ -16,8 +16,6 @@ import { SidePanelComponent } from './side-panel/side-panel.component';
 import { MaterialElevationDirective } from './directives/material-elevation.directive';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
-import { QuillModule } from 'ngx-quill'
-
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -61,19 +59,6 @@ import { SidePanelSocialComponent } from './side-panel-social/side-panel-social.
 
     ReactiveFormsModule,
     BrowserAnimationsModule,
-
-    QuillModule.forRoot({
-      modules: {
-        toolbar: [
-          ['bold', 'italic', 'underline', 'strike'],
-          ['blockquote'],
-          [{ 'header': 1 }, { 'header': 2 }],
-          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-          [{ 'indent': '-1'}, { 'indent': '+1' }], 
-          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-          ['link', 'image', 'video']
-      ]}
-    }),
 
     MatFormFieldModule,
     MatInputModule,
