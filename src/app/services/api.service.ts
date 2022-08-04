@@ -14,11 +14,6 @@ export class ApiService {
   getMenu(id: number): Observable<any> {
     return this.http.get(this.baseUrl + 'menus/' + id);
   }
-  
-
-  getSocials(): Observable<any> {
-    return this.http.get(this.baseUrl + 'socials');
-  }
 
   getArticles(): Observable<any> {
     return this.http.get(this.baseUrl + 'articles');
@@ -56,5 +51,26 @@ export class ApiService {
 
   getOption(name: string): Observable<any> {
     return this.http.get(this.baseUrl + 'options/' + name);
+  }
+
+  // Social
+  getSocials(): Observable<any> {
+    return this.http.get(this.baseUrl + 'socials');
+  }
+
+  getSocial(id: number): Observable<any> {
+    return this.http.get(this.baseUrl + 'socials/' + id);
+  }
+
+  setSocial(id: number, body: any): Observable<any> {
+    return this.http.put(this.baseUrl + 'socials/' + id, body);
+  }
+
+  addSocial(body: any): Observable<any> {
+    return this.http.post(this.baseUrl + 'socials', body);
+  }
+
+  deleteSocial(id: number): Observable<any> {
+    return this.http.delete(this.baseUrl + 'socials/' + id);
   }
 }

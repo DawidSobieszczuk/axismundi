@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../services/api.service';
 
 @Component({
@@ -9,14 +9,106 @@ import { ApiService } from '../services/api.service';
 })
 export class SidePanelSocialComponent implements OnInit {
 
-  socials!: any;
-
+  form!: FormGroup;
+  idsToDeleteList: number[] = [];
+  successMessages: string[] = [];
+  errorMessages: string[] = [];
+  
+  get socialsFormArray() {
+    return this.form.get('socials') as FormArray;
+  }
+  
   constructor(private apiService: ApiService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+    this.form = this.formBuilder.group({
+      'socials': this.formBuilder.array([])
+    });
+
     this.apiService.getSocials().subscribe({
-      next: (v) => this.socials = v.data
+      next: (v) => {
+        v.data.forEach((element: {id: any, name: any, icon: any, href: any}) => {
+          this.socialsFormArray.push(this.formBuilder.group({
+            'id': [element.id],
+            'name': [element.name, Validators.required],
+            'icon': [element.icon, Validators.required],
+            'href': [element.href, Validators.required]
+          }))
+        });
+      }
     });
   }
 
+  addSocial(): void {
+    this.socialsFormArray.push(this.formBuilder.group({
+      'id': [-1],
+      'name': ['', Validators.required],
+      'icon': ['', Validators.required],
+      'href': ['', Validators.required]
+    }))
+  }
+
+  deleteSocial(id: number, elementIndex: number): void {
+    this.socialsFormArray.removeAt(elementIndex);
+    if(id > 0)
+      this.idsToDeleteList.push(id);
+  }
+
+  formSubmit(): void {
+    this.errorMessages = [];
+    this.successMessages = [];
+
+    this.idsToDeleteList.forEach(element => {
+      this.apiService.deleteSocial(element).subscribe({
+        next: (v) => { 
+          if(v.message) 
+            this.successMessages.push(v.message); 
+          else
+            this.successMessages.push('Remove element with' + element);
+        },
+        error: (e) => { 
+          if(e.error.message)
+            this.errorMessages.push(e.error.message); 
+        }
+      });
+    });
+
+    this.idsToDeleteList = [];
+
+    this.socialsFormArray.value.forEach((element: {id: any, name: any; icon: any, href: any}, index: any) => {
+      var body = {
+        'name': element.name,
+        'icon': element.icon,
+        'href': element.href
+      }
+      if(element.id > 0) { // update
+        this.apiService.setSocial(element.id, body).subscribe({
+          next: (v) => { 
+            if(v.message) 
+              this.successMessages.push(v.message); 
+            else
+              this.successMessages.push('Update ' + element.name);
+          },
+          error: (e) => { 
+            if(e.error.message)
+              this.errorMessages.push(e.error.message); 
+          }
+        });
+      } else { // add new
+        this.apiService.addSocial(body).subscribe({
+          next: (v) => { 
+            this.socialsFormArray.value[index].id = v.data.id;
+            if(v.message) 
+              this.successMessages.push(v.message); 
+            else
+              this.successMessages.push('Add ' + element.name);
+          },
+          error: (e) => { 
+            if(e.error.message)
+              this.errorMessages.push(e.error.message); 
+          }
+        });
+      }
+    });
+  }
 }

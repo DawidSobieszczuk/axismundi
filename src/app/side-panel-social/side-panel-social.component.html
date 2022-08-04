@@ -2,19 +2,34 @@
     <mat-expansion-panel-header>
     <mat-panel-title>Media Społecznościowe</mat-panel-title>
     </mat-expansion-panel-header>
-    <div *ngFor="let social of socials; last as last" >
-        <h3>{{ social.name }}</h3>
-        <mat-form-field appearance="fill">
-            <mat-label>Link</mat-label>
-            <input matInput value="{{ social.href }}">
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-            <mat-label>Icon</mat-label>
-            <input matInput value="{{ social.icon }}">
-        </mat-form-field> 
-    </div>
-    <mat-action-row>
-        <button mat-raised-button>Dodaj</button>
-        <button mat-raised-button>Zapisz</button>
-    </mat-action-row>
+    <form [formGroup]="form" (ngSubmit)="formSubmit()">
+        <div formArrayName="socials">
+            <div [formGroupName]="i" *ngFor="let socialControl of socialsFormArray.controls; let i = index">
+                <span>{{ i +1 }}.</span>
+                <mat-form-field appearance="fill">
+                    <mat-label>name</mat-label>
+                    <input matInput formControlName="name">
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>icon</mat-label>
+                    <input matInput formControlName="icon">
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>link</mat-label>
+                    <input matInput formControlName="href">
+                </mat-form-field>
+                <button mat-raised-button (click)="deleteSocial(socialControl.value.id, i)" type="button">Usuń</button>
+            </div>
+            <div *ngIf="errorMessages.length > 0" class="error-form">
+                <div *ngFor="let errorMessage of errorMessages">{{ errorMessage }}</div>
+            </div>
+            <div *ngIf="successMessages.length > 0" class="success-form">
+                <div *ngFor="let successMessage of successMessages">{{ successMessage }}</div>
+            </div>
+        </div>
+        <mat-action-row>
+            <button mat-raised-button (click)="addSocial()" type="button">Dodaj</button>
+            <button mat-raised-button [disabled]="form.invalid" type="submit" >Zapisz</button>
+        </mat-action-row>
+    </form>
 </mat-expansion-panel>

@@ -4,26 +4,21 @@ TODO list for Vesion 1.0.0
 
 ### Todo
 - [ ] side-panel (admin-panel)
-  - [ ] articles (home page)
-    - [ ] filtering draft (show or hide)
-    - [ ] create new article
   - [ ] articles (article page)
     - [ ] update
     - [ ] toggle editor (probably CKEditor5)
     - [ ] autosave (defaut disable when article is published | defaut enabele when article is draft)
 - [ ] article page
   - [ ] try CKEditor 5
-- [ ] create contact page
 
 
 ### In Progress
 - [ ] side-panel (admin-panel)
-  - [ ] socials
-    - [ ] create
-    - [ ] update
-  - [ ] options
-    - [ ] create 
-    - [ ] update
+  - [ ] add close button
+  - [ ] articles (home page)
+    - [ ] filtering draft (show or hide)
+    - [ ] create new article
+- [ ] create contact page
 
 ### Done ✓
 - [x] header
@@ -36,3 +31,10 @@ TODO list for Vesion 1.0.0
   - [x] user
     - [x] logout
     - [x] update
+  - [x] options
+    - [x] create 
+    - [x] update
+  - [x] socials
+    - [x] create
+    - [x] update
+    - [x] delete
