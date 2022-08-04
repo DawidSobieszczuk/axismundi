@@ -13,7 +13,7 @@ export class SidePanelUserComponent implements OnInit {
   showPassword: boolean = false;
   newPassword: boolean = false;
   errorMessage: string = '';
-  succesMessage: string = '';
+  successMessage: string = '';
 
   form!: FormGroup;
 
@@ -44,12 +44,12 @@ export class SidePanelUserComponent implements OnInit {
       ...(this.form.get('newPassword')?.valid && {password_confirmation: pass }),
     };
 
-    this.succesMessage = '';
+    this.successMessage = '';
     this.errorMessage = '';
 
     this.apiService.setCurretLoggedUser(body).subscribe({
       next: (v) =>
-        this.succesMessage = v.message ? v.message : "Success",
+        this.successMessage = v.message ? v.message : "Success",
       error: (e) => 
         this.errorMessage = e.error.message ? e.error.message : "Error"
   });

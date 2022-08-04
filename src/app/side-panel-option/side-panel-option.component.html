@@ -2,15 +2,19 @@
     <mat-expansion-panel-header>
     <mat-panel-title>Opcje</mat-panel-title>
     </mat-expansion-panel-header>
-    <div *ngFor="let option of options">
-        <h3>{{ option.name }}</h3>
-        <mat-form-field appearance="fill">
-            <mat-label>Value</mat-label>
-            <input matInput value="{{ option.value }}">
-        </mat-form-field>
-    </div>
-    <mat-action-row>
-        <button mat-raised-button>Dodaj</button>
-        <button mat-raised-button>Zapisz</button>
-    </mat-action-row>
+    <form [formGroup]="form" (ngSubmit)="formSubmit()">
+        <div formArrayName="options">
+            <div [formGroupName]="i" *ngFor="let optionControl of optionControls.controls; let i = index">
+                <mat-form-field appearance="fill">
+                    <mat-label>{{ optionControl.value.name }}</mat-label>
+                    <input matInput formControlName="value">
+                </mat-form-field>
+            </div>
+        </div>
+        <div *ngIf="errorMessage" class="error-form">{{ errorMessage }}</div>
+        <div *ngIf="successMessage" class="succes-form">{{ successMessage }}</div>
+        <mat-action-row>
+            <button type="submit" mat-raised-button>Zapisz</button>
+        </mat-action-row>
+    </form>
 </mat-expansion-panel>

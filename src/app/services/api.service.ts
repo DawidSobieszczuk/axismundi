@@ -14,12 +14,7 @@ export class ApiService {
   getMenu(id: number): Observable<any> {
     return this.http.get(this.baseUrl + 'menus/' + id);
   }
-  getOptions(): Observable<any> {
-    return this.http.get(this.baseUrl + 'options');
-  }
-  getOption(name: string): Observable<any> {
-    return this.http.get(this.baseUrl + 'options/' + name);
-  }
+  
 
   getSocials(): Observable<any> {
     return this.http.get(this.baseUrl + 'socials');
@@ -48,5 +43,18 @@ export class ApiService {
 
   logout(): Observable<any> {
     return this.http.get(this.baseUrl + 'logout');
+  }
+
+  // Options
+  setOption(id: number, value: string): Observable<any> {
+    return this.http.put(this.baseUrl + 'options/' + id, {value: value});
+  }
+
+  getOptions(): Observable<any> {
+    return this.http.get(this.baseUrl + 'options');
+  }
+
+  getOption(name: string): Observable<any> {
+    return this.http.get(this.baseUrl + 'options/' + name);
   }
 }
