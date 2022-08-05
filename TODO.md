@@ -15,7 +15,7 @@ TODO list for Vesion 1.0.0
 ### In Progress
 - [ ] side-panel (admin-panel)
   - [ ] articles (home page)
-    - [ ] filtering draft (show or hide)
+    - [x] filtering draft (show or hide)
     - [ ] create new article
 - [ ] create contact page
 

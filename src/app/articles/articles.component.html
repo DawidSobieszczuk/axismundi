@@ -10,10 +10,9 @@
         </mat-card>        
     </a>
 
-    <mat-paginator class="paginator" [length]="length"
+    <mat-paginator class="paginator" [length]="articles.length"
         [pageSize]="pageSize"
         [pageSizeOptions]="pageSizeOptions"
-        (page)="onPageChange($event)"
         aria-label="Select page">
     </mat-paginator>
 </div>

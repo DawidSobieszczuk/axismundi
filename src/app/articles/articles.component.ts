@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import { ApiService } from '../services/api.service';
+import { ArticleService } from '../services/article.service';
 
 @Component({
   selector: 'am-articles',
@@ -9,31 +9,26 @@ import { ApiService } from '../services/api.service';
 })
 export class ArticlesComponent implements OnInit {
 
-  length = 0;
   pageSize = 20;
   pageSizeOptions = [20, 32, 44];
+  startIndex = 0;
+  endIndex = 20;
 
-
-  articles!: [];
-  pageSlice: any;
-
-  constructor(private apiService: ApiService) { }
-
-  ngOnInit(): void {
-    this.apiService.getArticles().subscribe({
-      next: (v) => {
-        this.length = v.data.length;
-
-        this.articles = v.data;
-        this.pageSlice = this.articles.slice(0, this.pageSize);
-      }
-    });
+  get pageSlice() : any {
+    return this.articles.slice(this.startIndex, this.endIndex);
   }
+  
+  get articles() : [] {
+    return this.articleServce.filteredArticles;
+  }
+
+  constructor(private articleServce: ArticleService) { }
+
+  ngOnInit(): void {}
 
   onPageChange(event: PageEvent) {
     this.pageSize = event.pageSize;
-    let start = event.pageIndex * this.pageSize;
-    let end = start + this.pageSize;
-    this.pageSlice = this.articles.slice(start, end);
+    this.startIndex = event.pageIndex * this.pageSize;
+    this.endIndex = this.startIndex + this.pageSize;
   }
 }
