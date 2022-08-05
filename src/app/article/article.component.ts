@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApiService } from '../services/api.service';
+import { ArticleService } from '../services/article.service';
 
 @Component({
   selector: 'am-article',
@@ -8,15 +8,15 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./article.component.scss']
 })
 export class ArticleComponent implements OnInit {
-  article!: any;
+  get article(): any {
+    let id = this.route.snapshot.params.id;
+    return this.articleService.getArticle(id);
+  };
 
-  constructor(private route: ActivatedRoute, private apiService: ApiService) { }
+  constructor(private route: ActivatedRoute, private articleService: ArticleService) { }
 
   ngOnInit(): void {
-    let id = this.route.snapshot.params.id;
-    this.apiService.getArticle(id).subscribe({
-      next: (v) => this.article = v.data
-    });
+  
   }
 
 }

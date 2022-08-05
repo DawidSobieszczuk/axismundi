@@ -25,7 +25,7 @@ export class SidePanelArticleComponent implements OnInit {
     localStorage.setItem('showDrafts', checked ? '1' : '0');
   }
 
-  createNewArticle(): void {
-
+  addNewArticle(): void {
+    this.articleService.addEmptyArticle(true);
   }
 }

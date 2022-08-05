@@ -19,7 +19,7 @@ export class ArticlesComponent implements OnInit {
   }
   
   get articles() : [] {
-    return this.articleServce.filteredArticles;
+    return this.articleServce.filteredArticles.reverse() as [];
   }
 
   constructor(private articleServce: ArticleService) { }

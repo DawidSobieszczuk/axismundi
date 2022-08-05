@@ -8,16 +8,14 @@ TODO list for Vesion 1.0.0
     - [ ] update
     - [ ] toggle editor (probably CKEditor5)
     - [ ] autosave (defaut disable when article is published | defaut enabele when article is draft)
-- [ ] article page
-  - [ ] try CKEditor 5
-
+- [ ] 404 not found page
+- [ ] error pages
 
 ### In Progress
 - [ ] side-panel (admin-panel)
-  - [ ] articles (home page)
-    - [x] filtering draft (show or hide)
-    - [ ] create new article
 - [ ] create contact page
+- [ ] article page
+  - [ ] try CKEditor 5
 
 ### Done ✓
 - [x] header
@@ -38,3 +36,6 @@ TODO list for Vesion 1.0.0
     - [x] create
     - [x] update
     - [x] delete
+  - [x] articles (home page)
+    - [x] filtering draft (show or hide)
+    - [x] create new article

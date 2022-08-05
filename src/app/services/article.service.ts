@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { ApiService } from './api.service';
 
 @Injectable({
@@ -6,7 +7,7 @@ import { ApiService } from './api.service';
 })
 export class ArticleService {
 
-  articles: [] = [];
+  articles: {}[] = [];
   includeDrafts = false;
 
   get filteredArticles() : [] {
@@ -15,9 +16,30 @@ export class ArticleService {
     }) as [];
   }
 
-  constructor(private apiService: ApiService) { 
+  constructor(private apiService: ApiService, private router: Router) { 
     apiService.getArticles().subscribe({
       next: (v) => this.articles = v.data
     })
+  }
+
+  addEmptyArticle(redirect: boolean): void {
+    this.apiService.addArticle({
+      title: 'Tytuł artykułu',
+      thumbnail: 'ng/assets/1600x900.png',
+      excerpt: 'Fragment artykułu',
+      content: 'Zawartość artykułu...',
+      categories: [],
+      tags: []
+    }).subscribe({
+      next: (v: any) => {
+        this.articles.push(v.data);
+        if(redirect) 
+          this.router.navigate(['article/' + v.data.id]);
+      }
+    });
+  }
+
+  getArticle(id: any): {} | undefined {
+    return this.articles.find((article: any) => { return article.id == id });
   }
 }

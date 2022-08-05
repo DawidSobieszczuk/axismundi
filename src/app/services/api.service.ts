@@ -15,12 +15,18 @@ export class ApiService {
     return this.http.get(this.baseUrl + 'menus/' + id);
   }
 
+
+  // Articles
   getArticles(): Observable<any> {
     return this.http.get(this.baseUrl + 'articles');
   }
 
   getArticle(id: number): Observable<any> {
     return this.http.get(this.baseUrl + 'articles/' + id);
+  }
+
+  addArticle(body: {title: string, thumbnail: string, excerpt: string, content: string, categories: [], tags: []}) {
+    return this.http.post(this.baseUrl + 'articles', body);
   }
 
   // User
