@@ -9,7 +9,7 @@ import { ApiService } from './services/api.service';
 export class AppComponent implements OnInit {
   sidebarOpenned:boolean = false;
   isUserLogged:boolean = false;
-  title = 'public14';
+  title = 'axismundi';
 
   constructor(private apiService: ApiService) { }
 

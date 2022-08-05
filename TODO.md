@@ -14,7 +14,6 @@ TODO list for Vesion 1.0.0
 
 ### In Progress
 - [ ] side-panel (admin-panel)
-  - [ ] add close button
   - [ ] articles (home page)
     - [ ] filtering draft (show or hide)
     - [ ] create new article
@@ -28,6 +27,7 @@ TODO list for Vesion 1.0.0
 - [x] fix errors
 
 - [ ] side-panel (admin-panel)
+  - [x] add close button
   - [x] user
     - [x] logout
     - [x] update

@@ -1,11 +1,11 @@
+<button *ngIf="isUserLogged" class="side-panel-toggle-button" mat-mini-fab color="accent" aria-label="bars" (click)="sidebarOpenned=!sidebarOpenned">
+    <i class="fa-solid fa-gear"></i>
+</button>
 <mat-sidenav-container class="example-container">
     <mat-sidenav [fixedInViewport]="true" [(opened)]="sidebarOpenned">
         <am-side-panel *ngIf="isUserLogged"></am-side-panel>
     </mat-sidenav>
     <mat-sidenav-content>
-        <button *ngIf="isUserLogged" class="side-panel-toggle-button" mat-mini-fab color="accent" aria-label="bars" (click)="sidebarOpenned=!sidebarOpenned">
-            <i class="fa-solid fa-gear"></i>
-        </button>
         <header>
             <am-navbar></am-navbar>
         </header>
