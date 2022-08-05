@@ -61,9 +61,9 @@ export class SidePanelUserComponent implements OnInit {
     });
   }
 
-  formChangeNewPassword($checked: boolean): void 
+  formChangeNewPassword(checked: boolean): void 
   {
-    if($checked)
+    if(checked)
       this.form.get('password')?.enable();
     else
       this.form.get('password')?.disable();
