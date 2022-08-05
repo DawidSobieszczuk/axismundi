@@ -9,13 +9,12 @@ import { ApiService } from '../services/api.service';
 })
 export class SidePanelOptionComponent implements OnInit {
 
-  options!: any;
-  successMessage: string = '';
-  errorMessage: string = '';
+  successMessages: string[] = [];
+  errorMessages: string[] = [];
 
   form!: FormGroup;
 
-  get optionControls() {
+  get optionFormArray() {
     return this.form.get('options') as FormArray;
  }
 
@@ -28,8 +27,7 @@ export class SidePanelOptionComponent implements OnInit {
 
     this.apiService.getOptions().subscribe({
       next: (v) => {
-        this.options = v.data;
-        this.options.forEach((element: { id: any; name: any; value: any; }) => {
+        v.data.forEach((element: { id: any; name: any; value: any; }) => {
           (this.form.get('options') as FormArray).push(this.formBuilder.group({
             'id': [element.id],
             'name': [element.name],
@@ -38,38 +36,22 @@ export class SidePanelOptionComponent implements OnInit {
         });
       }
     });
-
-    console.log(this.optionControls);
   }
 
   formSubmit(): void {
-    console.log('ok');
+    this.successMessages = [];
+    this.errorMessages = [];
 
-    let optionsData = this.form.get('options')?.value;
-    let errorCount = 0;
-    let errorMessages = '';
-    let successMessages = '';
-
-    this.successMessage = '';
-    this.errorMessage = '';
-
-    optionsData.forEach((element: {id: any, value: any}) => {
+    this.optionFormArray.value.forEach((element: {id: any, name: any, value: any}) => {
       this.apiService.setOption(element.id, element.value).subscribe({
         next: (v) => {
-          if(v.message)
-            successMessages += v.message + '\n';
+            this.successMessages.push(v.message ? v.message : 'Update ' + element.name);
         },
-        error: (e) => { 
-          errorCount++;
+        error: (e) => {
           if(e.error.message)
-            errorMessages += e.error.message + '\n';
+            this.errorMessages.push(e.error.message ? e.error.message : 'Error ' + element.name);
         },
       });
     });
-
-    if (errorCount == 0)
-      this.successMessage = successMessages.length > 0 ? successMessages : "Succes";
-    else
-      this.errorMessage = errorMessages.length > 0 ? errorMessages : "Error";
   }
 }
