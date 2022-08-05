@@ -64,7 +64,7 @@ export class SidePanelSocialComponent implements OnInit {
           if(v.message) 
             this.successMessages.push(v.message); 
           else
-            this.successMessages.push('Remove element with' + element);
+            this.successMessages.push('Remove element');
         },
         error: (e) => { 
           if(e.error.message)
@@ -84,28 +84,20 @@ export class SidePanelSocialComponent implements OnInit {
       if(element.id > 0) { // update
         this.apiService.setSocial(element.id, body).subscribe({
           next: (v) => { 
-            if(v.message) 
-              this.successMessages.push(v.message); 
-            else
-              this.successMessages.push('Update ' + element.name);
+            this.successMessages.push(v.message ? v.message : 'Update ' + element.name); 
           },
           error: (e) => { 
-            if(e.error.message)
-              this.errorMessages.push(e.error.message); 
+            this.errorMessages.push(e.error.message ? e.error.message : 'Error ' + element.name); 
           }
         });
       } else { // add new
         this.apiService.addSocial(body).subscribe({
           next: (v) => { 
             this.socialsFormArray.value[index].id = v.data.id;
-            if(v.message) 
-              this.successMessages.push(v.message); 
-            else
-              this.successMessages.push('Add ' + element.name);
+            this.successMessages.push(v.message ? v.message : 'Add ' + element.name); 
           },
           error: (e) => { 
-            if(e.error.message)
-              this.errorMessages.push(e.error.message); 
+            this.errorMessages.push(e.error.message ? e.error.message : 'Error ' + element.name); 
           }
         });
       }
