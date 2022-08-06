@@ -50,13 +50,13 @@ import { SidePanelSocialComponent } from './side-panel-social/side-panel-social.
     SidePanelUserComponent,
     SidePanelArticleComponent,
     SidePanelOptionComponent,
-    SidePanelSocialComponent
+    SidePanelSocialComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-
+    
     ReactiveFormsModule,
     BrowserAnimationsModule,
 

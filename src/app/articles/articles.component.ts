@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { ActivatedRoute } from '@angular/router';
+import { filter, map, Observable, skip, take } from 'rxjs';
+import { Article } from '../models/article';
 import { ArticleService } from '../services/article.service';
+import { SidePanelService } from '../services/side-panel.service';
 
 @Component({
   selector: 'am-articles',
@@ -14,17 +18,20 @@ export class ArticlesComponent implements OnInit {
   startIndex = 0;
   endIndex = 20;
 
-  get pageSlice() : any {
-    return this.articles.slice(this.startIndex, this.endIndex);
-  }
-  
-  get articles() : [] {
-    return this.articleServce.filteredArticles.reverse() as [];
+  get pageSlice$() : Observable<Article[]> {
+    return this.articles$.pipe(map((value) => value.slice(this.startIndex, this.endIndex)))
   }
 
-  constructor(private articleServce: ArticleService) { }
+  _articles$!: Observable<Article[]>;  
+  get articles$(): Observable<Article[]> {
+    return this._articles$.pipe(map((value) => value.filter((article: Article) => this.sidePanelService.showArticleDrafts ? true : !article.is_draft)));
+  }; 
 
-  ngOnInit(): void {}
+  constructor(private route: ActivatedRoute, private sidePanelService : SidePanelService) { }
+
+  ngOnInit(): void {
+    this._articles$ = this.route?.data.pipe(map((value) => value.articles.data.reverse())) as Observable<Article[]>;
+  }
 
   onPageChange(event: PageEvent) {
     this.pageSize = event.pageSize;

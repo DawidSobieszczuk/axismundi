@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatCheckbox } from '@angular/material/checkbox';
-import { ArticleService } from '../services/article.service';
+import { SidePanelService } from '../services/side-panel.service';
 
 @Component({
   selector: 'am-side-panel-article',
@@ -9,23 +8,23 @@ import { ArticleService } from '../services/article.service';
 })
 export class SidePanelArticleComponent implements OnInit {
 
-  constructor(private articleService: ArticleService) { }
+  constructor(private sidePanelService: SidePanelService) { }
 
   showDrafts = false;
 
   ngOnInit(): void {
     if(localStorage.getItem('showDrafts') == '1') {
       this.showDrafts = true;
-      this.articleService.includeDrafts = true;
+      this.sidePanelService.showArticleDrafts = true;
     }
   }
 
   changeShowDrafts(checked: boolean): void {
-    this.articleService.includeDrafts = checked;
+    this.sidePanelService.showArticleDrafts = checked;
     localStorage.setItem('showDrafts', checked ? '1' : '0');
   }
 
   addNewArticle(): void {
-    this.articleService.addEmptyArticle(true);
+    //this.articleService.addEmptyArticle(true);
   }
 }

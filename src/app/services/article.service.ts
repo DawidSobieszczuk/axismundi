@@ -19,7 +19,7 @@ export class ArticleService {
   constructor(private apiService: ApiService, private router: Router) { 
     apiService.getArticles().subscribe({
       next: (v) => this.articles = v.data
-    })
+    });
   }
 
   addEmptyArticle(redirect: boolean): void {
