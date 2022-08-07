@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
+import { NotificationService } from '../services/notification.service';
 import { SidePanelService } from '../services/side-panel.service';
 
 @Component({
@@ -10,7 +11,7 @@ import { SidePanelService } from '../services/side-panel.service';
 })
 export class SidePanelArticleComponent implements OnInit {
 
-  constructor(private router: Router, private sidePanelService: SidePanelService, private apiService: ApiService) { }
+  constructor(private router: Router, private sidePanelService: SidePanelService, private apiService: ApiService, private noificationService: NotificationService) { }
 
   showDrafts = false;
 
@@ -36,6 +37,7 @@ export class SidePanelArticleComponent implements OnInit {
       tags: []
     }).subscribe({
       next: (v: any) =>  { 
+        this.noificationService.open(v.message ? v.message : "Create new article", 'success');
         this.sidePanelService.isOppened = false; 
         this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => this.router.navigate(['article/' + v.data.id])); 
       }

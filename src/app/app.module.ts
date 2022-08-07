@@ -13,6 +13,13 @@ import { HomeComponent } from './home/home.component';
 import { HeroComponent } from './hero/hero.component';
 import { SidePanelComponent } from './side-panel/side-panel.component';
 
+import { SidePanelUserComponent } from './side-panel-user/side-panel-user.component';
+import { SidePanelArticleComponent } from './side-panel-article/side-panel-article.component';
+import { SidePanelOptionComponent } from './side-panel-option/side-panel-option.component';
+import { SidePanelSocialComponent } from './side-panel-social/side-panel-social.component';
+import { NotificationComponent } from './notification/notification.component';
+
+
 import { MaterialElevationDirective } from './directives/material-elevation.directive';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
@@ -29,11 +36,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatRippleModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { SidePanelUserComponent } from './side-panel-user/side-panel-user.component';
-import { SidePanelArticleComponent } from './side-panel-article/side-panel-article.component';
-import { SidePanelOptionComponent } from './side-panel-option/side-panel-option.component';
-import { SidePanelSocialComponent } from './side-panel-social/side-panel-social.component';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -51,6 +55,7 @@ import { SidePanelSocialComponent } from './side-panel-social/side-panel-social.
     SidePanelArticleComponent,
     SidePanelOptionComponent,
     SidePanelSocialComponent,
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,7 +74,9 @@ import { SidePanelSocialComponent } from './side-panel-social/side-panel-social.
     MatExpansionModule,
     MatSidenavModule,
     MatRippleModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSnackBarModule,
+    MatProgressBarModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

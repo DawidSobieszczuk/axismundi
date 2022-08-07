@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../services/api.service';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'am-side-panel-social',
@@ -11,14 +12,12 @@ export class SidePanelSocialComponent implements OnInit {
 
   form!: FormGroup;
   idsToDeleteList: number[] = [];
-  successMessages: string[] = [];
-  errorMessages: string[] = [];
   
   get socialsFormArray() {
     return this.form.get('socials') as FormArray;
   }
   
-  constructor(private apiService: ApiService, private formBuilder: FormBuilder) { }
+  constructor(private apiService: ApiService, private formBuilder: FormBuilder, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -55,20 +54,13 @@ export class SidePanelSocialComponent implements OnInit {
   }
 
   formSubmit(): void {
-    this.errorMessages = [];
-    this.successMessages = [];
-
     this.idsToDeleteList.forEach(element => {
       this.apiService.deleteSocial(element).subscribe({
-        next: (v) => { 
-          if(v.message) 
-            this.successMessages.push(v.message); 
-          else
-            this.successMessages.push('Remove element');
+        next: (v) => {          
+            this.notificationService.open(v.message ? v.message : 'Element remove', 'success');
         },
         error: (e) => { 
-          if(e.error.message)
-            this.errorMessages.push(e.error.message); 
+          this.notificationService.open(e.error.message ? e.error.message : 'Cannot remove element', 'error');
         }
       });
     });
@@ -84,20 +76,20 @@ export class SidePanelSocialComponent implements OnInit {
       if(element.id > 0) { // update
         this.apiService.setSocial(element.id, body).subscribe({
           next: (v) => { 
-            this.successMessages.push(v.message ? v.message : 'Update ' + element.name); 
+            this.notificationService.open(v.message ? v.message : 'Update ' + element.name, 'success');
           },
           error: (e) => { 
-            this.errorMessages.push(e.error.message ? e.error.message : 'Error ' + element.name); 
+            this.notificationService.open(e.error.message ? e.error.message : 'Cannot update ' + element.name, 'error');
           }
         });
       } else { // add new
         this.apiService.addSocial(body).subscribe({
           next: (v) => { 
             this.socialsFormArray.value[index].id = v.data.id;
-            this.successMessages.push(v.message ? v.message : 'Add ' + element.name); 
+            this.notificationService.open(v.message ? v.message : 'Add ' + element.name, 'success');
           },
           error: (e) => { 
-            this.errorMessages.push(e.error.message ? e.error.message : 'Error ' + element.name); 
+            this.notificationService.open(e.error.message ? e.error.message : 'Cannot add ' + element.name, 'error');
           }
         });
       }

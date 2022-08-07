@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../services/api.service';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'am-side-panel-user',
@@ -12,12 +13,10 @@ export class SidePanelUserComponent implements OnInit {
   user!: any;
   showPassword: boolean = false;
   newPassword: boolean = false;
-  errorMessage: string = '';
-  successMessage: string = '';
 
   form!: FormGroup;
 
-  constructor(private apiService: ApiService, private formBuilder: FormBuilder) { }
+  constructor(private apiService: ApiService, private formBuilder: FormBuilder, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -44,14 +43,11 @@ export class SidePanelUserComponent implements OnInit {
       ...(this.form.get('newPassword')?.valid && {password_confirmation: pass }),
     };
 
-    this.successMessage = '';
-    this.errorMessage = '';
-
     this.apiService.setCurretLoggedUser(body).subscribe({
       next: (v) =>
-        this.successMessage = v.message ? v.message : "Success",
+        this.notificationService.open(v.message ? v.message : "Update user", 'success'),
       error: (e) => 
-        this.errorMessage = e.error.message ? e.error.message : "Error"
+      this.notificationService.open(e.error.message ? e.error.message : "Cannot update user", 'error'),
   });
   }
 

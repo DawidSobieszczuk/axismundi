@@ -14,6 +14,7 @@ import Quote from '@editorjs/quote';
 import List from '@editorjs/list';
 import Delimiter from '@editorjs/delimiter';
 import Table from '@editorjs/table';
+import { NotificationService } from '../services/notification.service';
 
 
 @Component({
@@ -27,10 +28,8 @@ export class ArticleComponent implements OnInit {
 
   article$!: Observable<Article>;
   editor!: any;
-  successMessage: string = '';
-  errorMessage: string = '';
 
-  constructor(private route: ActivatedRoute, private apiService: ApiService) { }
+  constructor(private route: ActivatedRoute, private apiService: ApiService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.article$ = this.route?.data.pipe(map((value) => value.article.data)) as Observable<Article>;
@@ -61,8 +60,12 @@ export class ArticleComponent implements OnInit {
     this.editor.save().then(
       (output: any) => 
         this.apiService.setArticle(this._id, {content: JSON.stringify(output)}).subscribe({         
-          next: (v: any) => this.successMessage = v.data.message ? v.data.message : 'Succes',
-          error: (e: any) => this.errorMessage = e.error.message ? e.error.message : 'Error'
+          next: (v: any) => {
+            this.notificationService.open(v.data.message ? v.data.message : 'Saved', 'success');
+          },
+          error: (e: any) => {
+            this.notificationService.open(e.error.message ? e.error.message : 'Cannot save article', 'error');
+          }
         })
     );
   }

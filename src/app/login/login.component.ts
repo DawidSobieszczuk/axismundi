@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../services/api.service';
 import { Router } from "@angular/router"
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'am-login',
@@ -13,7 +14,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   errorMessage!: string;
 
-  constructor(private formBuilder: FormBuilder, private apiService: ApiService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private apiService: ApiService, private router: Router, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     // Check is user logged
@@ -38,7 +39,7 @@ export class LoginComponent implements OnInit {
         window.location.reload();
       },
       error: (e) => {
-          this.errorMessage = e.error.message;
+          this.notificationService.open(e.error.message ? e.errorMessage : 'Error', 'error')
       }
     });
   }

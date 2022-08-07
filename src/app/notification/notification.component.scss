@@ -1,0 +1,11 @@
+.progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.title, .message {
+    padding-bottom: 0.69rem;
+}

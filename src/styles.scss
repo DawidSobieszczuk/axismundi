@@ -52,20 +52,34 @@ main {
   min-height: 100vh;
 }
 
-.error-form {
-  margin: 1rem;
-  padding: 1rem;
-  border: 1px solid color('warn');
-  color: color('warn');
+// .error-form {
+//   margin: 1rem;
+//   padding: 1rem;
+//   border: 1px solid color('warn');
+//   color: color('warn');
+// }
+
+// .success-form {
+//   margin: 1rem;
+//   padding: 1rem;
+//   border: 1px solid color('success');
+//   color: color('success');
+// }
+
+// Notification
+.error.mat-snack-bar-container {
+  background-color: color('warn');
+  color: color('white');
+  white-space: pre-wrap;
 }
 
-.success-form {
-  margin: 1rem;
-  padding: 1rem;
-  border: 1px solid color('success');
-  color: color('success');
+.success.mat-snack-bar-container {
+  background-color: color('success');
+  color: color('white');
+  white-space: pre-wrap;
 }
 
+// Article
 $heading-scale: 0.3;
 @for $i from 1 through 6 {
     h#{$i} {

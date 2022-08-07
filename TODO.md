@@ -23,8 +23,6 @@ TODO list for Vesion 1.0.0
 - [ ] article page
   - [ ] edit form 
 
-- [ ] snackbar - succes/error messages
-
 - [ ] create contact page
 
 ### Done ✓
@@ -33,6 +31,8 @@ TODO list for Vesion 1.0.0
 - [x] homepage
 - [x] fix footer - remove getting not existet option
 - [x] fix errors
+
+- [x] snackbar - succes/error messages
 
 - [ ] article page
   - [x] try CKEditor 5

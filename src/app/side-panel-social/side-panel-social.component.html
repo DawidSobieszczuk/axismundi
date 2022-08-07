@@ -20,12 +20,6 @@
                 </mat-form-field>
                 <button mat-raised-button (click)="deleteSocial(socialControl.value.id, i)" type="button">Usuń</button>
             </div>
-            <div *ngIf="errorMessages.length > 0" class="error-form">
-                <div *ngFor="let errorMessage of errorMessages">{{ errorMessage }}</div>
-            </div>
-            <div *ngIf="successMessages.length > 0" class="success-form">
-                <div *ngFor="let successMessage of successMessages">{{ successMessage }}</div>
-            </div>
         </div>
         <mat-action-row>
             <button mat-raised-button (click)="addSocial()" type="button">Dodaj</button>
