@@ -21,7 +21,6 @@ TODO list for Vesion 1.0.0
     - [ ] toggle editor
 
 - [ ] article page
-  - [ ] fixed save button
   - [ ] edit form 
 
 - [ ] snackbar - succes/error messages
@@ -37,6 +36,7 @@ TODO list for Vesion 1.0.0
 
 - [ ] article page
   - [x] try CKEditor 5
+  - [x] fixed save button
   
 - [ ] side-panel (admin-panel)
   - [x] add close button
