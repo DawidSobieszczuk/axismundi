@@ -8,6 +8,8 @@ export class SidePanelService {
   isUserLogged: boolean = false;
   userRoles: string[] = [];
 
+  isOppened: boolean = false;
+
   showArticleDrafts: boolean = false;
 
   constructor() { }

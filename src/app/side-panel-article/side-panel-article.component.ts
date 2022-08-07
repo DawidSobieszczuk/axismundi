@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { ApiService } from '../services/api.service';
 import { SidePanelService } from '../services/side-panel.service';
 
 @Component({
@@ -8,7 +10,7 @@ import { SidePanelService } from '../services/side-panel.service';
 })
 export class SidePanelArticleComponent implements OnInit {
 
-  constructor(private sidePanelService: SidePanelService) { }
+  constructor(private router: Router, private sidePanelService: SidePanelService, private apiService: ApiService) { }
 
   showDrafts = false;
 
@@ -25,6 +27,18 @@ export class SidePanelArticleComponent implements OnInit {
   }
 
   addNewArticle(): void {
-    //this.articleService.addEmptyArticle(true);
+    this.apiService.addArticle({
+      title: 'Tytuł artykułu',
+      thumbnail: 'ng/assets/1600x900.png',
+      excerpt: 'Fragment artykułu',
+      content: '{ }',
+      categories: [],
+      tags: []
+    }).subscribe({
+      next: (v: any) =>  { 
+        this.sidePanelService.isOppened = false; 
+        this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => this.router.navigate(['article/' + v.data.id])); 
+      }
+    });
   }
 }

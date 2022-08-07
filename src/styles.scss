@@ -65,3 +65,11 @@ main {
   border: 1px solid color('success');
   color: color('success');
 }
+
+$heading-scale: 0.3;
+@for $i from 1 through 6 {
+    h#{$i} {
+        font-size: 0.6rem + $heading-scale * (6 - $i);
+        font-weight: bold;
+    }
+}

@@ -28,6 +28,11 @@ export class ApiService {
   addArticle(body: {title: string, thumbnail: string, excerpt: string, content: string, categories: [], tags: []}) {
     return this.http.post(this.baseUrl + 'articles', body);
   }
+  
+  setArticle(id: number, body: {title?: string, thumbnail?: string, excerpt?: string, content?: string, categories?: [], tags?: []}) {
+    return this.http.put(this.baseUrl + 'articles/' + id.toString(), body);
+  }
+
 
   // User
   getCurrentLoggedUser(): Observable<any> {
@@ -78,5 +83,10 @@ export class ApiService {
 
   deleteSocial(id: number): Observable<any> {
     return this.http.delete(this.baseUrl + 'socials/' + id);
+  }
+
+  // Files
+  uploadFile(body: any): Observable<any> {
+    return this.http.post(this.baseUrl + 'files', body);
   }
 }

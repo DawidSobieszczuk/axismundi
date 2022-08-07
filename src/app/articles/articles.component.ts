@@ -3,7 +3,6 @@ import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
 import { filter, map, Observable, skip, take } from 'rxjs';
 import { Article } from '../models/article';
-import { ArticleService } from '../services/article.service';
 import { SidePanelService } from '../services/side-panel.service';
 
 @Component({

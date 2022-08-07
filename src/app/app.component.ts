@@ -8,7 +8,14 @@ import { SidePanelService } from './services/side-panel.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  sidebarOpenned:boolean = false;
+  //sidebarOpenned:boolean = false;
+  get sidePanelIsOpenned(): boolean {
+    return this.sidePanelService.isOppened;
+  } 
+  set sidePanelIsOpenned(v) {
+    this.sidePanelService.isOppened = v;
+  }
+
   isUserLogged:boolean = false;
   title = 'axismundi';
 

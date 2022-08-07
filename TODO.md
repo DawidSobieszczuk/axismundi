@@ -4,18 +4,24 @@ TODO list for Vesion 1.0.0
 
 ### Todo
 - [ ] side-panel (admin-panel)
-  - [ ] articles (article page)
-    - [ ] update
-    - [ ] toggle editor (probably CKEditor5)
-    - [ ] autosave (defaut disable when article is published | defaut enabele when article is draft)
+  
 - [ ] 404 not found page
 - [ ] error pages
+  
+- [ ] snackbar - succes/error messages
+
+- [ ] article page
+  - [ ] fixed save button
+  - [ ] edit form 
+  - [ ] create display view
+    - [ ] conver content data to html
+  - [ ] toggel editor view
 
 ### In Progress
 - [ ] side-panel (admin-panel)
+  - [ ] articles
+    - [ ] toggle editor
 - [ ] create contact page
-- [ ] article page
-  - [ ] try CKEditor 5
 
 ### Done ✓
 - [x] header
@@ -24,6 +30,9 @@ TODO list for Vesion 1.0.0
 - [x] fix footer - remove getting not existet option
 - [x] fix errors
 
+- [ ] article page
+  - [x] try CKEditor 5
+  
 - [ ] side-panel (admin-panel)
   - [x] add close button
   - [x] user
