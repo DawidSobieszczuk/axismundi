@@ -4,15 +4,13 @@ TODO list for Vesion 1.0.0
 
 ### Todo
 - [ ] side-panel (admin-panel)
+  - [ ] menu
   
 - [ ] 404 not found page
 - [ ] error pages
   
-- [ ] snackbar - succes/error messages
 
 - [ ] article page
-  - [ ] fixed save button
-  - [ ] edit form 
   - [ ] create display view
     - [ ] conver content data to html
   - [ ] toggel editor view
@@ -21,6 +19,13 @@ TODO list for Vesion 1.0.0
 - [ ] side-panel (admin-panel)
   - [ ] articles
     - [ ] toggle editor
+
+- [ ] article page
+  - [ ] fixed save button
+  - [ ] edit form 
+
+- [ ] snackbar - succes/error messages
+
 - [ ] create contact page
 
 ### Done ✓
@@ -45,6 +50,6 @@ TODO list for Vesion 1.0.0
     - [x] create
     - [x] update
     - [x] delete
-  - [x] articles (home page)
+  - [x] articles
     - [x] filtering draft (show or hide)
     - [x] create new article
