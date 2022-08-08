@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ApiService } from '../services/api.service';
 import { Router } from "@angular/router"
 import { NotificationService } from '../services/notification.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'am-login',
@@ -14,16 +15,13 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   errorMessage!: string;
 
-  constructor(private formBuilder: FormBuilder, private apiService: ApiService, private router: Router, private notificationService: NotificationService) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private apiService: ApiService, private router: Router, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     // Check is user logged
-    this.apiService.getCurrentLoggedUser().subscribe({
-      next: (v) => {
-        this.router.navigate(['/']);
-      },
-      error: () => {}
-    });
+    this.userService.isUserLogged().subscribe({
+      next: (v) => { if(v) this.router.navigate(['/']) }
+    })
 
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],

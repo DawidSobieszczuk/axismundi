@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from './services/api.service';
 import { SidePanelService } from './services/side-panel.service';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -19,12 +20,11 @@ export class AppComponent implements OnInit {
   isUserLogged:boolean = false;
   title = 'axismundi';
 
-  constructor(private apiService: ApiService, private sidePanelService: SidePanelService) { }
+  constructor(private apiService: ApiService, private userService: UserService, private sidePanelService: SidePanelService) { }
 
   ngOnInit(): void {
-    this.apiService.getCurrentLoggedUser().subscribe({
-      next: (v) => { this.isUserLogged = true; },
-      error: () => {}
+    this.userService.isUserLogged().subscribe({
+      next: (v) => { this.isUserLogged = v; this.sidePanelService.isUserLogged = v; }
     });
   }
 }

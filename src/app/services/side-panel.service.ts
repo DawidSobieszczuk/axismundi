@@ -9,6 +9,7 @@ export class SidePanelService {
 
   isOppened: boolean = false;
   showArticleDrafts: boolean = false;
+  isUserLogged: boolean = false;
 
   constructor() { }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../services/api.service';
 import { NotificationService } from '../services/notification.service';
+import { SidePanelService } from '../services/side-panel.service';
 
 @Component({
   selector: 'am-side-panel-user',
@@ -16,7 +17,7 @@ export class SidePanelUserComponent implements OnInit {
 
   form!: FormGroup;
 
-  constructor(private apiService: ApiService, private formBuilder: FormBuilder, private notificationService: NotificationService) { }
+  constructor(private apiService: ApiService, private sidePanelService: SidePanelService, private formBuilder: FormBuilder, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -26,12 +27,14 @@ export class SidePanelUserComponent implements OnInit {
     });
     this.form.get('password')?.disable();
 
-    this.apiService.getCurrentLoggedUser().subscribe({
-      next: (v) => {
-        this.user = v.data;
-        this.form.get('email')?.setValue(v.data.email);
-      }
-    });
+    if(this.sidePanelService.isUserLogged) {
+      this.apiService.getCurrentLoggedUser().subscribe({
+        next: (v) => {
+          this.user = v.data;
+          this.form.get('email')?.setValue(v.data.email);
+        }
+      });
+    }
   }
 
   formSubmit(): void {
