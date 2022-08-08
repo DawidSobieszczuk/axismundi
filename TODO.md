@@ -8,20 +8,12 @@ TODO list for Vesion 1.0.0
   
 - [ ] 404 not found page
 - [ ] error pages
-  
-
-- [ ] article page
-  - [ ] create display view
-    - [ ] conver content data to html
-  - [ ] toggel editor view
 
 ### In Progress
-- [ ] side-panel (admin-panel)
-  - [ ] articles
-    - [ ] toggle editor
-
 - [ ] article page
-  - [ ] edit form 
+  - [ ] facebook comments 
+  - [ ] create display view
+    - [ ] conver content data to html
 
 - [ ] create contact page
 
@@ -53,3 +45,4 @@ TODO list for Vesion 1.0.0
   - [x] articles
     - [x] filtering draft (show or hide)
     - [x] create new article
+    - [x] edit form 

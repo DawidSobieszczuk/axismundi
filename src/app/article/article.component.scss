@@ -1,3 +1,5 @@
+@use '../../scss/abstract' as *;
+
 :host {
     display: block;
     width: 100%;
@@ -7,6 +9,26 @@
 .save-button {
     position: fixed;
     top: 0.6rem;
-    left: 2.1rem;
+    left: 2.2rem;
     z-index: 999;
+}
+
+.publish-button {
+    position: fixed;
+    top: 0.6rem;
+    left: 8rem;
+    z-index: 999;
+}
+
+.status-public, .status-notpublic {
+    position: fixed;
+    top: 5rem;
+    left: 0.5rem;
+    color: color('primary');
+    text-align: center;
+    padding-bottom: 1rem;
+}
+
+.status-public {
+    color: color('success');
 }

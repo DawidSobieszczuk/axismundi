@@ -33,6 +33,13 @@ export class ApiService {
     return this.http.put(this.baseUrl + 'articles/' + id.toString(), body);
   }
 
+  publishArticle(id: number): Observable<any> {
+    return this.http.put(this.baseUrl + 'articles/publish/' + id.toString(), {});
+  }
+
+  unpublishArticle(id: number): Observable<any> {
+    return this.http.put(this.baseUrl + 'articles/unpublish/' + id.toString(), {});
+  }
 
   // User
   getCurrentLoggedUser(): Observable<any> {

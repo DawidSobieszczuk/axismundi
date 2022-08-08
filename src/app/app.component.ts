@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.apiService.getCurrentLoggedUser().subscribe({
-      next: (v) => { this.isUserLogged = true; this.sidePanelService.isUserLogged = true },
+      next: (v) => { this.isUserLogged = true; },
       error: () => {}
     });
   }

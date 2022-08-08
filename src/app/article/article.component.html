@@ -1,6 +1,11 @@
 <div class="container">
-    <!-- {{ (article$ | async )?.content}} -->
+    <!-- Editor View-->
+    <div *ngIf="!(article$ | async)?.is_draft" class="status-public">Status: publiczny</div>
+    <div *ngIf="(article$ | async)?.is_draft" class="status-notpublic">Status: niepubliczny</div>
+    
     <div id="editor-js"></div>
-    <button class="save-button" mat-raised-button color="accent" (click)="editorSave()" >Save</button>
+    <button mat-raised-button type="button" class="save-button" color="accent" (click)="editorSave()">Zapisz</button>
+    <button *ngIf="(article$ | async)?.is_draft" mat-raised-button type="button" class="publish-button" color="accent" (click)="publish()">Publikuj</button>
+    <button *ngIf="!(article$ | async)?.is_draft" mat-raised-button type="button" class="publish-button" color="accent" (click)="unpublish()">Cofnij publikacje</button>
 </div> 
 

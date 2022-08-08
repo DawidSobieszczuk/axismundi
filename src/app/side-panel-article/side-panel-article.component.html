@@ -1,4 +1,4 @@
-<mat-expansion-panel [expanded]="true" hideToggle>
+<mat-expansion-panel *ngIf="!articleId" hideToggle>
     <mat-expansion-panel-header>
         <mat-panel-title>Artykuł</mat-panel-title>
     </mat-expansion-panel-header>
@@ -6,4 +6,67 @@
     <mat-action-row>
         <button mat-raised-button type="button" (click)="addNewArticle()">Nowy artykuł</button>
     </mat-action-row>
+</mat-expansion-panel>
+
+<mat-expansion-panel *ngIf="articleId" hideToggle>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Artykuł
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <form [formGroup]="articleForm" (submit)="updateArticle()">
+        <div>
+            <mat-form-field appearance="fill">
+                <mat-label>Tytuł</mat-label>
+                <input matInput formControlName="title">
+            </mat-form-field>
+        </div>
+        <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Miniaturka link</mat-label>
+            <input matInput formControlName="thumbnail">
+        </mat-form-field>
+        </div>
+        <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Fragment</mat-label>
+            <textarea matInput formControlName="excerpt"></textarea>
+        </mat-form-field>
+        </div>
+        <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Kategorie</mat-label>
+            <mat-chip-list #categoriesList formControlName="categories">
+                <mat-chip  *ngFor="let category of articleForm.get('categories')?.value" (removed)="removeCategory(category)">
+                    {{ category }}
+                    <button matChipRemove><i class="fa-solid fa-xmark"></i></button>
+                </mat-chip>
+                <input 
+                    [matChipInputFor]="categoriesList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    (matChipInputTokenEnd)="addCategory($event)"
+                    [matChipInputAddOnBlur]="true">
+            </mat-chip-list>
+        </mat-form-field>
+        </div>
+        <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Tagi</mat-label>
+            <mat-chip-list #tagsList formControlName="tags">
+                <mat-chip *ngFor="let tag of articleForm.get('tags')?.value" (removed)="removeTag(tag)">
+                    {{ tag }}
+                    <button matChipRemove><i class="fa-solid fa-xmark"></i></button>
+                </mat-chip>
+                <input
+                    [matChipInputFor]="tagsList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    (matChipInputTokenEnd)="addTag($event)"
+                    [matChipInputAddOnBlur]="true">
+            </mat-chip-list>
+        </mat-form-field>
+        </div>
+        <mat-action-row>
+            <button type="submit" mat-raised-button [disabled]="articleForm.invalid">Zapisz</button>
+        </mat-action-row>
+    </form>
 </mat-expansion-panel>

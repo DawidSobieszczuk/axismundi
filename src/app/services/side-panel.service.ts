@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Article } from '../models/article';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SidePanelService {
 
-  isUserLogged: boolean = false;
-  userRoles: string[] = [];
-
   isOppened: boolean = false;
-
   showArticleDrafts: boolean = false;
 
   constructor() { }
