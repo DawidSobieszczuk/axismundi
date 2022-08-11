@@ -49,8 +49,8 @@ export class SidePanelArticleComponent implements OnInit {
 
     setTimeout(() => {
       // wait a tick, then articleId will have value
-      if(!this.articleId)
-        return;
+      // TODO: Sometimes dont show values in form
+      if(!this.articleId) return;
 
       this.apiService.getArticle(this.articleId).subscribe({
         next: (v) => {

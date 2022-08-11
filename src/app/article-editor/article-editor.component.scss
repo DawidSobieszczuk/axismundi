@@ -35,13 +35,12 @@
     z-index: 999;
 }
 
-.status-public, .status-notpublic {
+.draft {
     position: fixed;
-    top: 5rem;
-    left: 0.5rem;
-    color: color('white');
+    top: 0.6rem;
+    right: 0.6rem;
     background-color: color('primary');
-    text-align: center;
+    color: color('white');
+    padding: 0.65rem;
     border-radius: 5px;
-    padding: 0.69rem;
 }
