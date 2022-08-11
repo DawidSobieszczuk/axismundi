@@ -9,22 +9,27 @@ import { UserService } from './services/user.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  //sidebarOpenned:boolean = false;
-  get sidePanelIsOpenned(): boolean {
-    return this.sidePanelService.isOppened;
-  } 
-  set sidePanelIsOpenned(v) {
-    this.sidePanelService.isOppened = v;
-  }
-
-  isUserLogged:boolean = false;
   title = 'axismundi';
 
-  constructor(private apiService: ApiService, private userService: UserService, private sidePanelService: SidePanelService) { }
+  constructor(public userService: UserService, public sidePanelService: SidePanelService) { }
 
   ngOnInit(): void {
-    this.userService.isUserLogged().subscribe({
-      next: (v) => { this.isUserLogged = v; this.sidePanelService.isUserLogged = v; }
-    });
+    this.userService.checkIsUserLogged();
   }
+}
+
+export function Required(target: object, propertyKey: string) {
+  Object.defineProperty(target, propertyKey, {
+    get() {
+      throw new Error(`Attribute ${propertyKey} is required`);
+    },
+    set(value) {
+      Object.defineProperty(target, propertyKey, {
+        value,
+        writable: true,
+        configurable: true,
+      });
+    },
+    configurable: true,
+  }); 
 }

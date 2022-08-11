@@ -82,7 +82,7 @@ export class SidePanelArticleComponent implements OnInit {
     }).subscribe({
       next: (v: any) =>  { 
         this.noificationService.open(v.message ? v.message : "Create new article", 'success');
-        this.sidePanelService.isOppened = false; 
+        this.sidePanelService.isOpened = false; 
         this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => this.router.navigate(['article/' + v.data.id])); 
       }
     });

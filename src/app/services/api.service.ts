@@ -50,6 +50,10 @@ export class ApiService {
     return this.http.put(this.baseUrl + 'user', body);
   }
 
+  getCurrentLoggedUserPermisions(): Observable<any> {
+    return this.http.get(this.baseUrl + 'user/permissions');
+  }
+
   login(email: string, password: string): Observable<any> {
     return this.http.post(this.baseUrl + 'login', {email: email, password: password});
   }

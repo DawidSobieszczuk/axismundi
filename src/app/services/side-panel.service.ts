@@ -7,9 +7,8 @@ import { Article } from '../models/article';
 })
 export class SidePanelService {
 
-  isOppened: boolean = false;
+  isOpened: boolean = false;
   showArticleDrafts: boolean = false;
-  isUserLogged: boolean = false;
 
   constructor() { }
 }

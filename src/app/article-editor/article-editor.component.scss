@@ -1,0 +1,47 @@
+@use '../../scss/abstract' as *;
+
+:host {
+    display: block;
+    width: 100%;
+}
+
+#editor-js {
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+        opacity: 0.069;
+        background-color: color('black');
+    }
+
+    background-color: color('white');
+}
+
+.save-button {
+    position: fixed;
+    top: 0.6rem;
+    left: 2.2rem;
+    z-index: 999;
+}
+
+.publish-button {
+    position: fixed;
+    top: 0.6rem;
+    left: 8rem;
+    z-index: 999;
+}
+
+.status-public, .status-notpublic {
+    position: fixed;
+    top: 5rem;
+    left: 0.5rem;
+    color: color('white');
+    background-color: color('primary');
+    text-align: center;
+    border-radius: 5px;
+    padding: 0.69rem;
+}

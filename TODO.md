@@ -12,8 +12,6 @@ TODO list for Vesion 1.0.0
 ### In Progress
 - [ ] article page
   - [ ] facebook comments 
-  - [ ] create display view
-    - [ ] conver content data to html
 
 - [ ] create contact page
 
@@ -27,8 +25,10 @@ TODO list for Vesion 1.0.0
 - [x] snackbar - succes/error messages
 
 - [ ] article page
-  - [x] try CKEditor 5
+  - [x] try CKEditor
   - [x] fixed save button
+  - [x] create display view
+    - [x] conver content data to html
   
 - [ ] side-panel (admin-panel)
   - [x] add close button

@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { ApiService } from '../services/api.service';
 import { NotificationService } from '../services/notification.service';
 import { SidePanelService } from '../services/side-panel.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'am-side-panel-user',
   templateUrl: './side-panel-user.component.html',
   styleUrls: ['./side-panel-user.component.scss']
 })
-export class SidePanelUserComponent implements OnInit {
+export class SidePanelUserComponent implements OnInit, OnDestroy {
 
   user!: any;
   showPassword: boolean = false;
@@ -17,24 +19,29 @@ export class SidePanelUserComponent implements OnInit {
 
   form!: FormGroup;
 
-  constructor(private apiService: ApiService, private sidePanelService: SidePanelService, private formBuilder: FormBuilder, private notificationService: NotificationService) { }
+  userIsLoggedSubjectSubscription!: Subscription;
+
+  constructor(private apiService: ApiService, private userService: UserService, private sidePanelService: SidePanelService, private formBuilder: FormBuilder, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
+    this.userIsLoggedSubjectSubscription = this.userService.isLoggedSubject.subscribe({
+      next: (v) => {
+        if(v) return;
+        this.sidePanelService.isOpened = false;
+      }
+    });
+
     this.form = this.formBuilder.group({
-      'email': ['', Validators.email],
+      'email': [this.userService.email, Validators.email],
       'password': ['', Validators.minLength(4)],
       'newPassword': [false]  
     });
     this.form.get('password')?.disable();
 
-    if(this.sidePanelService.isUserLogged) {
-      this.apiService.getCurrentLoggedUser().subscribe({
-        next: (v) => {
-          this.user = v.data;
-          this.form.get('email')?.setValue(v.data.email);
-        }
-      });
-    }
+  }
+
+  ngOnDestroy(): void {
+    this.userIsLoggedSubjectSubscription.unsubscribe();
   }
 
   formSubmit(): void {
@@ -51,13 +58,12 @@ export class SidePanelUserComponent implements OnInit {
         this.notificationService.open(v.message ? v.message : "Update user", 'success'),
       error: (e) => 
       this.notificationService.open(e.error.message ? e.error.message : "Cannot update user", 'error'),
-  });
+    });
+
   }
 
   formLogout(): void {
-    this.apiService.logout().subscribe({
-      next: () => window.location.reload()
-    });
+    this.userService.logout();
   }
 
   formChangeNewPassword(checked: boolean): void 

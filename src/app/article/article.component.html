@@ -1,11 +1,5 @@
 <div class="container">
-    <!-- Editor View-->
-    <div *ngIf="!(article$ | async)?.is_draft" class="status-public">Status: publiczny</div>
-    <div *ngIf="(article$ | async)?.is_draft" class="status-notpublic">Status: niepubliczny</div>
-    
-    <div id="editor-js"></div>
-    <button mat-raised-button type="button" class="save-button" color="accent" (click)="editorSave()">Zapisz</button>
-    <button *ngIf="(article$ | async)?.is_draft" mat-raised-button type="button" class="publish-button" color="accent" (click)="publish()">Publikuj</button>
-    <button *ngIf="!(article$ | async)?.is_draft" mat-raised-button type="button" class="publish-button" color="accent" (click)="unpublish()">Cofnij publikacje</button>
+    <div *ngIf="!userService.isLogged" class="article" [innerHTML]="html"></div>
+    <am-article-editor *ngIf="userService.isLogged" [article]="article" (save)="editorSave($event)"></am-article-editor>
 </div> 
 

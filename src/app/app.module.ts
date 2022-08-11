@@ -39,6 +39,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatChipsModule } from '@angular/material/chips'
+import { UserService } from './services/user.service';
+import { ArticleEditorComponent } from './article-editor/article-editor.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +59,7 @@ import { MatChipsModule } from '@angular/material/chips'
     SidePanelOptionComponent,
     SidePanelSocialComponent,
     NotificationComponent,
+    ArticleEditorComponent,
   ],
   imports: [
     BrowserModule,
@@ -81,7 +84,8 @@ import { MatChipsModule } from '@angular/material/chips'
     MatChipsModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    //UserService
   ],
   bootstrap: [AppComponent]
 })

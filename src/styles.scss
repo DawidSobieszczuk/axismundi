@@ -88,10 +88,36 @@ $heading-scale: 0.3;
     }
 }
 
+b {
+  font-weight: 700;
+}
+
+i {
+  font-style: italic;
+}
+
 .ce-block__content, .ce-toolbar__content {
   max-width: calc(100% - 80px) !important;
 }
 
 .cdx-block {
   max-width: 100% !important;
+}
+
+.tc-cell:first-child {
+  border-left: 1px solid var(--color-border);
+}
+
+.article {
+  --color-border: #e8e8eb;
+
+  padding: 0 40px;
+
+  .caption {
+    margin-top: 7px;
+  }
+
+  > * {
+      padding: .4em 0;
+  }
 }
