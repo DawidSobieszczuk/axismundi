@@ -5,7 +5,6 @@
     <form [formGroup]="form" (ngSubmit)="formSubmit()">
         <div formArrayName="socials">
             <div [formGroupName]="i" *ngFor="let socialControl of socialsFormArray.controls; let i = index">
-                <span>{{ i +1 }}.</span>
                 <mat-form-field appearance="fill">
                     <mat-label>name</mat-label>
                     <input matInput formControlName="name">
@@ -18,7 +17,7 @@
                     <mat-label>link</mat-label>
                     <input matInput formControlName="href">
                 </mat-form-field>
-                <button mat-raised-button (click)="deleteSocial(socialControl.value.id, i)" type="button">Usuń</button>
+                <button mat-raised-button (click)="deleteSocial(socialControl.value.id, i)" color="warn" type="button">Usuń</button>
             </div>
         </div>
         <mat-action-row>
