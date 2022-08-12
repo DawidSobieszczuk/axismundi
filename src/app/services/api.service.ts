@@ -11,10 +11,22 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  getMenu(id: number): Observable<any> {
-    return this.http.get(this.baseUrl + 'menus/' + id);
+  // Menu
+  getMenu(name: string): Observable<any> {
+    return this.http.get(this.baseUrl + 'menus/' + name);
   }
 
+  addMenuItem(body: any): Observable<any> {
+    return this.http.post(this.baseUrl + 'menuitems', body);
+  }
+
+  setMenuItem(id: number, body: any): Observable<any> {
+    return this.http.put(this.baseUrl + 'menuitems/' + id, body);
+  }
+
+  deleteMenuItem(id: number): Observable<any> {
+    return this.http.delete(this.baseUrl + 'menuitems/' + id);
+  }
 
   // Articles
   getArticles(): Observable<any> {

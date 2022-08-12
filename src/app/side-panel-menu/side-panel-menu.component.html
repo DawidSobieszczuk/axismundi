@@ -1,0 +1,24 @@
+<mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+    <mat-panel-title>Menu</mat-panel-title>
+    </mat-expansion-panel-header>
+    <form [formGroup]="form" (ngSubmit)="formSubmit()">
+        <div formArrayName="menu-items">
+            <div [formGroupName]="i" *ngFor="let menuiIemControl of menuItemsFormArray.controls; let i = index">
+                <mat-form-field appearance="fill">
+                    <mat-label>Name</mat-label>
+                    <input matInput formControlName="name" value="{{ menuiIemControl.value.name }}">
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Link</mat-label>
+                    <input matInput formControlName="href" value="{{ menuiIemControl.value.href }}">
+                </mat-form-field>
+                <button mat-raised-button (click)="deleteItem(menuiIemControl.value.id, i)" color="warn" type="button">Usuń</button>
+            </div>
+        </div>
+        <mat-action-row>
+            <button type="button" (click)="addItem()" mat-raised-button>Dodaj</button>
+            <button type="submit" mat-raised-button>Zapisz</button>
+        </mat-action-row>
+    </form>
+</mat-expansion-panel>

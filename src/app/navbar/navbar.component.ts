@@ -9,14 +9,17 @@ import { ApiService } from '../services/api.service';
 export class NavbarComponent implements OnInit {
 
   logoSrc = 'ng/assets/logo.png'; // default
-  menuItems!:[];
+  menuItems!: any[];
 
-  constructor(private api:ApiService) { }
+  constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
-    this.api.getOption('logo').subscribe({
+    this.apiService.getOption('logo').subscribe({
       next: (v) => this.logoSrc = v.data.value
-    })
+    });
+    this.apiService.getMenu('nav').subscribe({
+      next: (v) => this.menuItems = v.data.items
+    });
   }
 
 }

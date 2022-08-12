@@ -41,6 +41,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatChipsModule } from '@angular/material/chips'
 import { UserService } from './services/user.service';
 import { ArticleEditorComponent } from './article-editor/article-editor.component';
+import { SidePanelMenuComponent } from './side-panel-menu/side-panel-menu.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { ArticleEditorComponent } from './article-editor/article-editor.componen
     SidePanelSocialComponent,
     NotificationComponent,
     ArticleEditorComponent,
+    SidePanelMenuComponent,
   ],
   imports: [
     BrowserModule,
