@@ -26,9 +26,9 @@ export class SidePanelOptionComponent implements OnInit {
       next: (v) => {
         v.data.forEach((element: { id: any; name: any; value: any; }) => {
           this.optionsFormArray.push(this.formBuilder.group({
-            'id': [element.id],
-            'name': [element.name],
-            'value': [element.value]
+            'id': [element.id, Validators.required],
+            'name': [element.name, Validators.required],
+            'value': [element.value, Validators.required]
           }))
         });
       }

@@ -18,7 +18,7 @@
         </div>
         <mat-action-row>
             <button type="button" (click)="addItem()" mat-raised-button>Dodaj</button>
-            <button type="submit" mat-raised-button>Zapisz</button>
+            <button type="submit" [disabled]="form.invalid" mat-raised-button>Zapisz</button>
         </mat-action-row>
     </form>
 </mat-expansion-panel>

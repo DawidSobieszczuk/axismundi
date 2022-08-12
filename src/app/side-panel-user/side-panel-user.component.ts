@@ -32,8 +32,8 @@ export class SidePanelUserComponent implements OnInit, OnDestroy {
     });
 
     this.form = this.formBuilder.group({
-      'email': [this.userService.email, Validators.email],
-      'password': ['', Validators.minLength(4)],
+      'email': [this.userService.email, [Validators.email, Validators.required]],
+      'password': ['', [Validators.minLength(4), Validators.required]],
       'newPassword': [false]  
     });
     this.form.get('password')?.disable();
