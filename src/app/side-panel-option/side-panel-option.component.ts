@@ -11,7 +11,7 @@ import { NotificationService } from '../services/notification.service';
 export class SidePanelOptionComponent implements OnInit {
   form!: FormGroup;
 
-  get optionFormArray() {
+  get optionsFormArray() {
     return this.form.get('options') as FormArray;
  }
 
@@ -25,7 +25,7 @@ export class SidePanelOptionComponent implements OnInit {
     this.apiService.getOptions().subscribe({
       next: (v) => {
         v.data.forEach((element: { id: any; name: any; value: any; }) => {
-          (this.form.get('options') as FormArray).push(this.formBuilder.group({
+          this.optionsFormArray.push(this.formBuilder.group({
             'id': [element.id],
             'name': [element.name],
             'value': [element.value]
@@ -36,23 +36,13 @@ export class SidePanelOptionComponent implements OnInit {
   }
 
   formSubmit(): void {
-    let successMessages: string[] = [];
-    let errorMessages: string[] = [];
-    let count = 0;
-
-    this.optionFormArray.value.forEach((element: {id: any, name: any, value: any}) => {
+    this.optionsFormArray.value.forEach((element: {id: any, name: any, value: any}) => {
       this.apiService.setOption(element.id, element.value).subscribe({
         next: (v) => {
-          count++;
-          this.notificationService.open(v.message ? v.message : 'Update ' + element.name, 'success');
-          successMessages.push(v.message ? v.message : 'Update ' + element.name);
-          if(count == this.optionFormArray.length) {
-            //this.notificationService.open(successMessages.join('\n'), 'success')
-          }
+          this.notificationService.open(v.message || 'Update ' + element.name, 'success');
         },
         error: (e) => {
-          count++
-          errorMessages.push(e.error.message ? e.error.message : 'Error ' + element.name);
+          this.notificationService.open(e.error.message || 'Error ' + element.name, 'error');
         },
       });
     });

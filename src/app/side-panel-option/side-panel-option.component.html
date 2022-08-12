@@ -4,7 +4,7 @@
     </mat-expansion-panel-header>
     <form [formGroup]="form" (ngSubmit)="formSubmit()">
         <div formArrayName="options">
-            <div [formGroupName]="i" *ngFor="let optionControl of optionFormArray.controls; let i = index">
+            <div [formGroupName]="i" *ngFor="let optionControl of optionsFormArray.controls; let i = index">
                 <mat-form-field appearance="fill">
                     <mat-label>{{ optionControl.value.name }}</mat-label>
                     <input matInput formControlName="value">
