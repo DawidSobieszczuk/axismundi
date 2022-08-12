@@ -10,7 +10,6 @@
     @if map-has-key($map, $name) {
       @return map-get($map, $name);
     } @else {
-      @error "Unfortunately, no value could be retrieved from `#{map-get($colors, 'pure')}`. "
-          + "Available breakpoints are: #{map-keys(map-get($colors, 'pure'))}.";
+      @error "Unfortunately, no value could be retrieved from `#{$colors}`";
     }
   }
