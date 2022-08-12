@@ -4,8 +4,13 @@ TODO list for Vesion 1.0.0
 
 ### Todo
 - [ ] side-panel (admin-panel)
+  -[ ] cleanup
+
+- [ ] services
   - [ ] menu
-  
+  - [ ] option
+  - [ ] social
+
 - [ ] 404 not found page
 - [ ] error pages
 
@@ -32,6 +37,7 @@ TODO list for Vesion 1.0.0
   
 - [ ] side-panel (admin-panel)
   - [x] add close button
+  - [x] menu
   - [x] user
     - [x] logout
     - [x] update
