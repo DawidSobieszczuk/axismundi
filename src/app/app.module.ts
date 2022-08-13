@@ -2,24 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { FooterComponent } from './footer/footer.component';
-import { LoginComponent } from './login/login.component';
-import { ArticlesComponent } from './articles/articles.component';
-import { ArticleComponent } from './article/article.component';
-import { HomeComponent } from './home/home.component';
-import { HeroComponent } from './hero/hero.component';
-import { SidePanelComponent } from './side-panel/side-panel.component';
-
-import { SidePanelUserComponent } from './side-panel-user/side-panel-user.component';
-import { SidePanelArticleComponent } from './side-panel-article/side-panel-article.component';
-import { SidePanelOptionComponent } from './side-panel-option/side-panel-option.component';
-import { SidePanelSocialComponent } from './side-panel-social/side-panel-social.component';
-import { NotificationComponent } from './notification/notification.component';
-
-
 import { MaterialElevationDirective } from './directives/material-elevation.directive';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
@@ -38,10 +20,27 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatChipsModule } from '@angular/material/chips'
-import { UserService } from './services/user.service';
+import { MatChipsModule } from '@angular/material/chips';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { FooterComponent } from './footer/footer.component';
+import { LoginComponent } from './login/login.component';
+import { ArticlesComponent } from './articles/articles.component';
+import { ArticleComponent } from './article/article.component';
+import { HomeComponent } from './home/home.component';
+import { HeroComponent } from './hero/hero.component';
+import { SidePanelComponent } from './side-panel/side-panel.component';
+import { SidePanelUserComponent } from './side-panel-user/side-panel-user.component';
+import { SidePanelArticleComponent } from './side-panel-article/side-panel-article.component';
+import { SidePanelOptionComponent } from './side-panel-option/side-panel-option.component';
+import { SidePanelSocialComponent } from './side-panel-social/side-panel-social.component';
+import { NotificationComponent } from './notification/notification.component';
 import { ArticleEditorComponent } from './article-editor/article-editor.component';
 import { SidePanelMenuComponent } from './side-panel-menu/side-panel-menu.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+
 
 @NgModule({
   declarations: [
@@ -62,6 +61,7 @@ import { SidePanelMenuComponent } from './side-panel-menu/side-panel-menu.compon
     NotificationComponent,
     ArticleEditorComponent,
     SidePanelMenuComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -87,7 +87,6 @@ import { SidePanelMenuComponent } from './side-panel-menu/side-panel-menu.compon
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    //UserService
   ],
   bootstrap: [AppComponent]
 })
