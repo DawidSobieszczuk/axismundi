@@ -4,9 +4,9 @@ TODO list for Vesion 1.0.0
 
 ### Todo
 - [ ] side-panel (admin-panel)
-  -[ ] check for every component if user has permission, if not hide this component
-  -[ ] cleanup
-  -[ ] file manager
+  - [ ] check for every component if user has permission, if not hide this component
+  - [ ] cleanup
+  - [ ] file manager
 
 - [ ] article-editor
   - [ ] check if user has permision to publish article, if not hide publish button
