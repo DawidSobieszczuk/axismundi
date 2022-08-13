@@ -1,6 +1,5 @@
 <div class="container">
     <div *ngIf="!userService.isLogged" class="article" [innerHTML]="html"></div>
     <am-article-editor *ngIf="userService.isLogged" [article]="article" (save)="editorSave($event)"></am-article-editor>
-    <div class="fb-comments" data-href="http://axismundi.ds/" data-width="" data-numposts="5"></div>
 </div> 
 
