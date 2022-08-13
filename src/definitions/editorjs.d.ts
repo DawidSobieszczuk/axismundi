@@ -7,5 +7,4 @@ declare module "@editorjs/link";
 declare module "@editorjs/list";
 declare module "@editorjs/delimiter";
 declare module "@editorjs/table";
-declare module 'editorjs-html';
 declare module 'editorjs-text-color-plugin';
