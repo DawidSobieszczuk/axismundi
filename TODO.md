@@ -11,13 +11,10 @@ TODO list for Vesion 1.0.0
   - [ ] option
   - [ ] social
 
-- [ ] 404 not found page
 - [ ] error pages
 
 ### In Progress
-- [ ] article page
-  - [ ] facebook comments 
-
+- [ ] make interfaces for api
 - [ ] create contact page
 
 ### Done ✓
@@ -26,6 +23,7 @@ TODO list for Vesion 1.0.0
 - [x] homepage
 - [x] fix footer - remove getting not existet option
 - [x] fix errors
+- [x] 404 not found page
 
 - [x] snackbar - succes/error messages
 
