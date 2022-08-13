@@ -10,6 +10,7 @@ TODO list for Vesion 1.0.0
   - [ ] menu
   - [ ] option
   - [ ] social
+  - [ ] article
 
 - [ ] error pages
 
