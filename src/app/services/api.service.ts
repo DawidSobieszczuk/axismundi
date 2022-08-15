@@ -75,17 +75,17 @@ export class ApiService {
   }
 
   // Options
-  setOption(id: number, value: string): Observable<any> {
-    return this.http.put(this.baseUrl + 'options/' + id, {value: value});
-  }
+  // setOption(id: number, value: string): Observable<any> {
+  //   return this.http.put(this.baseUrl + 'options/' + id, {value: value});
+  // }
 
-  getOptions(): Observable<any> {
-    return this.http.get(this.baseUrl + 'options');
-  }
+  // getOptions(): Observable<any> {
+  //   return this.http.get(this.baseUrl + 'options');
+  // }
 
-  getOption(name: string): Observable<any> {
-    return this.http.get(this.baseUrl + 'options/' + name);
-  }
+  // getOption(name: string): Observable<any> {
+  //   return this.http.get(this.baseUrl + 'options/' + name);
+  // }
 
   // Social
   getSocials(): Observable<any> {

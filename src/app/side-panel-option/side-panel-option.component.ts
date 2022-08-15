@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpEventType } from '@angular/common/http';
+import { AfterContentInit, Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ApiService } from '../services/api.service';
+import { Option } from '../models/option';
+import { OptionService } from '../services/data/option.service';
 import { NotificationService } from '../services/notification.service';
 
 @Component({
@@ -8,43 +10,40 @@ import { NotificationService } from '../services/notification.service';
   templateUrl: './side-panel-option.component.html',
   styleUrls: ['./side-panel-option.component.scss']
 })
-export class SidePanelOptionComponent implements OnInit {
+export class SidePanelOptionComponent implements OnInit, AfterContentInit {
   form!: FormGroup;
 
   get optionsFormArray() {
     return this.form.get('options') as FormArray;
  }
 
-  constructor(private apiService: ApiService, private formBuilder: FormBuilder, private notificationService: NotificationService) { }
+  constructor(private optionService: OptionService, private formBuilder: FormBuilder, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       'options': this.formBuilder.array([])
     });
+  }
 
-    this.apiService.getOptions().subscribe({
-      next: (v) => {
-        v.data.forEach((element: { id: any; name: any; value: any; }) => {
-          this.optionsFormArray.push(this.formBuilder.group({
-            'id': [element.id, Validators.required],
-            'name': [element.name, Validators.required],
-            'value': [element.value, Validators.required]
-          }))
-        });
-      }
+  ngAfterContentInit(): void {
+    this.optionService.getAll().forEach((element: Option) => {
+      this.optionsFormArray.push(this.formBuilder.group({
+        'id': [element.id, Validators.required],
+        'name': [element.name, Validators.required],
+        'value': [element.value, Validators.required]
+      }))
     });
   }
 
   formSubmit(): void {
-    this.optionsFormArray.value.forEach((element: {id: any, name: any, value: any}) => {
-      this.apiService.setOption(element.id, element.value).subscribe({
-        next: (v) => {
-          this.notificationService.open(v.message || 'Update ' + element.name, 'success');
-        },
-        error: (e) => {
-          this.notificationService.open(e.error.message || 'Error ' + element.name, 'error');
-        },
-      });
+    this.optionService.saveAll().subscribe({
+      next: (v) => {
+        v.forEach((e) => {
+          if(e.type == HttpEventType.Response && e.body) {
+            this.notificationService.open(e.body.message, 'success');
+          }
+        })
+      }
     });
   }
 }

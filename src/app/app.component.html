@@ -1,3 +1,8 @@
+<div class="loading" *ngIf="!isLoaded">
+    <mat-spinner mode="indeterminate"></mat-spinner>
+</div>
+
+<div *ngIf="isLoaded">
 <button *ngIf="userService.isLogged" class="side-panel-toggle-button" mat-mini-fab color="primary" aria-label="bars" (click)="sidePanelService.isOpened=!sidePanelService.isOpened">
     <i class="fa-solid fa-gear"></i>
 </button>
@@ -17,3 +22,4 @@
         </footer>
     </mat-sidenav-content>
 </mat-sidenav-container>
+</div>

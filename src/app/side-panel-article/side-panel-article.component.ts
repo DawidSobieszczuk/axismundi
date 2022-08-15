@@ -50,6 +50,8 @@ export class SidePanelArticleComponent implements OnInit {
     setTimeout(() => {
       // wait a tick, then articleId will have value
       // TODO: Sometimes dont show values in form
+      // make article service for handle current open article data
+
       if(!this.articleId) return;
 
       this.apiService.getArticle(this.articleId).subscribe({

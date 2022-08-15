@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
+import { OptionService } from '../services/data/option.service';
 
 @Component({
   selector: 'am-footer',
@@ -9,14 +10,13 @@ import { ApiService } from '../services/api.service';
 export class FooterComponent implements OnInit {
 
   socials!: [];
-  email: string = 'dawidsobieszczuk@gmail.com';
   copyright: string = '© 2022 AxisMundi';
 
-  constructor(private api:ApiService) { }
+  constructor(private api:ApiService, private optionSerive: OptionService) { }
 
   ngOnInit(): void {
     this.api.getSocials().subscribe(json => this.socials = json.data);
-    this.api.getOption('copyright').subscribe(json => this.copyright = json.data.value);
+    this.copyright = this.optionSerive.get('copyright')?.value || this.copyright;
   }
 
 }
