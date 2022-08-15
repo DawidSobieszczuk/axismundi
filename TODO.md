@@ -16,16 +16,15 @@ TODO list for Vesion 1.0.0
 
 - [ ] article search filter
 
-- [ ] services
+- [ ] error pages
+
+### In Progress
+- [ ] services (with interfaces)
   - [ ] menu
   - [ ] option
   - [ ] social
   - [ ] article
 
-- [ ] error pages
-
-### In Progress
-- [ ] make interfaces for api
 - [ ] create contact page
 
 ### Done ✓
