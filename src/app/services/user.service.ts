@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject} from 'rxjs';
+import { Subject} from 'rxjs';
 import { ApiResponse } from '../models/responses';
 import { UserPermision, User } from '../models/user';
 import { NotificationService } from './notification.service';
@@ -43,10 +43,11 @@ export class UserService {
   }
 
   save(email: string, password: string): void {
-    let data = new FormData();
-    data.append('email', email);
-    data.append('password', password);
-    data.append('password_confirmation', password);
+    let data = {
+      email: email,
+      password: password,
+      password_confirmation: password,
+    }
 
     this.http.put<ApiResponse>(this._url, data).subscribe({
       next: (v: any) => this.notificationService.open(v.message, 'success'),
@@ -55,9 +56,10 @@ export class UserService {
   }
 
   login(email: string, password: string): void {
-    let data = new FormData();
-    data.append('email', email);
-    data.append('password', password);
+    let data = {
+      email: email,
+      password: password,
+    }
 
     this.http.post<ApiResponse>(this._urlLogin, data).subscribe({
       next: (v) => {
