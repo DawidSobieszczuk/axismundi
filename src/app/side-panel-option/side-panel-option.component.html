@@ -12,7 +12,7 @@
             </div>
         </div>
         <mat-action-row>
-            <button type="submit" [disabled]="form.invalid" mat-raised-button>Zapisz</button>
+            <button type="submit" [disabled]="form.invalid || optionService.isSaving" mat-raised-button>Zapisz</button>
         </mat-action-row>
     </form>
 </mat-expansion-panel>

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { forkJoin, Observable } from 'rxjs';
 import { Option } from 'src/app/models/option';
 import { ApiResponse } from 'src/app/models/responses';
+import { NotificationService } from '../notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,7 @@ export class OptionService {
   get isLoading(): boolean { return this._isLoading }
   get isLoaded(): boolean { return this._isLoaded }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private notificationService: NotificationService) { }
 
   /**
    * Get all options
@@ -50,13 +51,20 @@ export class OptionService {
     return this._options.find(option => option.id == id);
   }
 
-  setValue(id: number | string, value: string): void { throw new Error('Method not implemented.'); }
+  setValue(id: number | string, value: string): void { 
+    let option = this.get(id);
+    if(!option) throw new Error(OptionService.ERROR_NOT_FOUND);
+
+    let indexOf = this._options.indexOf(option);
+    
+    this._options[indexOf].value = value;
+  }
 
   /**
    * Save all option to database
    * TODO: When api allow save all optoion with one request rewrite this method 
    */
-  saveAll(): Observable<HttpEvent<ApiResponse>[]> { 
+  saveAll(): void { 
     if(this._options == undefined) throw Error(OptionService.ERROR_NOT_LOADED);
     if(this._isSaving) throw new Error(OptionService.ERROR_IS_SAVING);
 
@@ -64,49 +72,46 @@ export class OptionService {
 
     let observables: Observable<HttpEvent<ApiResponse>>[] = [];
     this._options.forEach((option: Option) => {
-      let data = new FormData();
-      data.append('value', option.value);
-      observables.push(this.http.put<ApiResponse>(this._url + `/${option.id}`, data, { reportProgress: true, observe: "events" }));
+      observables.push(this.http.put<ApiResponse>(this._url + `/${option.id}`, { value: option.value }, { reportProgress: true, observe: "events" }));
     });
 
-    let observable = forkJoin(observables);
-
-    observable.subscribe({
-      next: (v: any) => {
-        if(v[0].type == HttpEventType.Response) {
-          this._isSaving = false;
-        }
+    forkJoin(observables).subscribe({
+      next: (vs: any) => {
+        vs.forEach((v: any) => {
+          if(v.type == HttpEventType.Response) {
+            this._isSaving = false;
+            this.notificationService.open(v.body.message, 'success');
+          }
+        });
+      },
+      error: (e) => {
+        this._isSaving = false;
+        this.notificationService.open(e.error.message, 'error');
       }
     });
-
-    return observable;
   }
 
-  save(id: number | string): Observable<HttpEvent<ApiResponse>> {
+  save(id: number | string): void {
     if(this._isSaving) throw new Error(OptionService.ERROR_IS_SAVING);
 
     let option = this.get(id);
     if(!option) throw new Error(OptionService.ERROR_NOT_FOUND);
 
     this._isSaving = true;
-    let data = new FormData();
-    data.append('value', option.value);
-
-    console.log('a');
-
-    let observable = this.http.put<ApiResponse>(this._url +`/${id}`, data, { reportProgress: true, observe: "events" });
-    observable.subscribe({
+    this.http.put<ApiResponse>(this._url + `/${id}`, { value: option.value }, { reportProgress: true, observe: "events" }).subscribe({
       next: (v: any) => {
         if(v.type == HttpEventType.Response) {
           this._isSaving = false;
+          this.notificationService.open(v.body.message, 'success');
         }
+      },
+      error: (e: any) => {
+        this.notificationService.open(e.error.message, 'error');
       }
     });
-
-    return observable;
   }
 
-  load(): Observable<HttpEvent<ApiResponse>> {
+  load(): void {
     if(this.isLoading) throw new Error(OptionService.ERROR_IS_LOADING);
     if(this.isLoaded) throw new Error(OptionService.ERROR_IS_LOADDED);
 
@@ -122,13 +127,11 @@ export class OptionService {
         }
       }
     });
-
-    return observable;
   }
 
-  reload(): Observable<HttpEvent<ApiResponse>> {
+  reload(): void {
     this._isLoading = false;
     this._isLoaded = false;
-    return this.load();
+    this.load();
   }
 }

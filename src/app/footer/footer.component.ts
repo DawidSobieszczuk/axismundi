@@ -10,13 +10,11 @@ import { OptionService } from '../services/data/option.service';
 export class FooterComponent implements OnInit {
 
   socials!: [];
-  copyright: string = '© 2022 AxisMundi';
 
-  constructor(private api:ApiService, private optionSerive: OptionService) { }
+  constructor(private api:ApiService, public optionSerive: OptionService) { }
 
   ngOnInit(): void {
     this.api.getSocials().subscribe(json => this.socials = json.data);
-    this.copyright = this.optionSerive.get('copyright')?.value || this.copyright;
   }
 
 }

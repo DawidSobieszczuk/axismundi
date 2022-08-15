@@ -18,7 +18,6 @@ export class AppComponent implements OnInit {
   constructor(private optionService: OptionService, public userService: UserService, public sidePanelService: SidePanelService) { }
 
   ngOnInit(): void {
-    console.log('init');
     this.optionService.load();
 
     this.userService.checkIsUserLogged();

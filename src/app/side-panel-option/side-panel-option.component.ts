@@ -1,6 +1,6 @@
 import { HttpEventType } from '@angular/common/http';
 import { AfterContentInit, Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Option } from '../models/option';
 import { OptionService } from '../services/data/option.service';
 import { NotificationService } from '../services/notification.service';
@@ -17,7 +17,7 @@ export class SidePanelOptionComponent implements OnInit, AfterContentInit {
     return this.form.get('options') as FormArray;
  }
 
-  constructor(private optionService: OptionService, private formBuilder: FormBuilder, private notificationService: NotificationService) { }
+  constructor(public optionService: OptionService, private formBuilder: FormBuilder, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -36,14 +36,9 @@ export class SidePanelOptionComponent implements OnInit, AfterContentInit {
   }
 
   formSubmit(): void {
-    this.optionService.saveAll().subscribe({
-      next: (v) => {
-        v.forEach((e) => {
-          if(e.type == HttpEventType.Response && e.body) {
-            this.notificationService.open(e.body.message, 'success');
-          }
-        })
-      }
+    this.optionsFormArray.value.forEach((element: Option) => {
+      this.optionService.setValue(element.id, element.value)
     });
+    this.optionService.saveAll();
   }
 }

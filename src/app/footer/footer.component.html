@@ -2,4 +2,4 @@
     <a matRipple *ngFor="let social of socials" href="{{ social['href'] }}"><i class="{{ social['icon'] }}"></i></a>
 </div>
 
-<div class="copyright">{{ copyright }}</div>
+<div class="copyright">{{ optionSerive.get('copyright')?.value }}</div>
