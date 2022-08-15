@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   loginForm!: FormGroup;
   errorMessage!: string;
-  userIsLoggedSubjectSubscription!: Subscription;
+  userSubjectSubscription!: Subscription;
 
   constructor(private formBuilder: FormBuilder, private userService: UserService, private apiService: ApiService, private router: Router, private notificationService: NotificationService) { }
 
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.router.navigate(['/'])
     }
 
-    this.userIsLoggedSubjectSubscription = this.userService.isLoggedSubject.subscribe({
+    this.userSubjectSubscription = this.userService.subject.subscribe({
       next: (v) => {
         if(!v) return;
         this.router.navigate(['/']);
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.userIsLoggedSubjectSubscription.unsubscribe();  
+    this.userSubjectSubscription.unsubscribe();  
   }
 
   onSubmit(): void {

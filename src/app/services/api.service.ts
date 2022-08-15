@@ -54,25 +54,25 @@ export class ApiService {
   }
 
   // User
-  getCurrentLoggedUser(): Observable<any> {
-    return this.http.get(this.baseUrl + 'user');
-  }
+  // getCurrentLoggedUser(): Observable<any> {
+  //   return this.http.get(this.baseUrl + 'user');
+  // }
 
-  setCurretLoggedUser(body: any): Observable<any> {
-    return this.http.put(this.baseUrl + 'user', body);
-  }
+  // setCurretLoggedUser(body: any): Observable<any> {
+  //   return this.http.put(this.baseUrl + 'user', body);
+  // }
 
-  getCurrentLoggedUserPermisions(): Observable<any> {
-    return this.http.get(this.baseUrl + 'user/permissions');
-  }
+  // getCurrentLoggedUserPermisions(): Observable<any> {
+  //   return this.http.get(this.baseUrl + 'user/permissions');
+  // }
 
-  login(email: string, password: string): Observable<any> {
-    return this.http.post(this.baseUrl + 'login', {email: email, password: password});
-  }
+  // login(email: string, password: string): Observable<any> {
+  //   return this.http.post(this.baseUrl + 'login', {email: email, password: password});
+  // }
 
-  logout(): Observable<any> {
-    return this.http.get(this.baseUrl + 'logout');
-  }
+  // logout(): Observable<any> {
+  //   return this.http.get(this.baseUrl + 'logout');
+  // }
 
   // Options
   // setOption(id: number, value: string): Observable<any> {

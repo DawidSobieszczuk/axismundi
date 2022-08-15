@@ -1,7 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable, map, catchError, of, Subject} from 'rxjs';
-import { ApiService } from './api.service';
+import { Observable, Subject} from 'rxjs';
+import { ApiResponse } from '../models/responses';
+import { UserPermision, User } from '../models/user';
 import { NotificationService } from './notification.service';
 
 @Injectable({
@@ -9,55 +10,82 @@ import { NotificationService } from './notification.service';
 })
 export class UserService {
 
-  isLoggedSubject: Subject<boolean> = new Subject<boolean>;
+  private _url = 'api/v1/user';
+  private _urlLogin = 'api/v1/login';
+  private _urlLogout = 'api/v1/logout';
+
+  subject: Subject<User | undefined> = new Subject<User | undefined>;
   isLogged: boolean = false;
   email: string | undefined;
-  roles: string[] | undefined;
+  roles: UserPermision[] | undefined;
 
-  constructor(private apiService: ApiService, private notificationService: NotificationService) { }
+  constructor(private http: HttpClient, private notificationService: NotificationService) { }
 
-  checkIsUserLogged(): void {
-    if(!localStorage.getItem('userToken'))
-      return; 
+  private _setUserValue(data: User): void {
+    this.subject.next(data);
 
-    this.apiService.getCurrentLoggedUser().subscribe({
-      next: (v) => {
-        this._setUserValue(v.data);
-      }
-    })
-  }
-
-  private _setUserValue(data: any): void {
-    this.isLoggedSubject.next(true);
     this.isLogged = true;
     this.email = data.email;
-    this.apiService.getCurrentLoggedUserPermisions().subscribe({
+    this.http.get<ApiResponse>(this._url + '/permissions').subscribe({
       next: (v) => {
         this.roles = v.data.map((e:any) => e.name);
       }
     });
   }
 
-  login(email: string, password: string): void {
-    this.apiService.login(email, password).subscribe({
-      next: (v) => {
-        localStorage.setItem('userToken', v.data.token);
-        this.notificationService.open(v.message || 'User logged in', 'success');
+  checkIsUserLogged(): void {
+    if(!localStorage.getItem('userToken'))
+      return; 
 
+    this.http.get<ApiResponse>(this._url).subscribe({
+      next: (v) => this._setUserValue(v.data)
+    });
+  }
+
+  save(email: string, password: string): void {
+    let data = new FormData();
+    data.append('email', email);
+    data.append('password', password);
+    data.append('password_confirmation', password);
+
+    this.http.put<ApiResponse>(this._url, data).subscribe({
+      next: (v: any) => this.notificationService.open(v.message, 'success'),
+      error: (e: any) => this.notificationService.open(e.error.message, 'error'),
+    });
+  }
+
+  login(email: string, password: string): void {
+    let data = new FormData();
+    data.append('email', email);
+    data.append('password', password);
+
+    this.http.post<ApiResponse>(this._urlLogin, data).subscribe({
+      next: (v) => {
+        this.notificationService.open(v.message, 'success');
+
+        localStorage.setItem('userToken', v.data.token);
         this._setUserValue(v.data.user);
+      },
+      error: (e) => {
+        this.notificationService.open(e.error.message, 'error');
       }
     });
   }
 
   logout(): void {
-    this.apiService.logout().subscribe({
+    this.http.get<ApiResponse>(this._urlLogout).subscribe({
       next: (v) => { 
+        this.notificationService.open(v.message, 'success');
+
         localStorage.removeItem('userToken'); 
-        this.notificationService.open(v.message || 'User logged out', 'success');
         this.isLogged = false;
-        this.isLoggedSubject.next(false);
         this.email = undefined;
         this.roles = undefined;
+
+        this.subject.next(undefined);
+      },
+      error: (e) => {
+        this.notificationService.open(e.error.message, 'error');
       }
     });
   }
