@@ -1,6 +1,6 @@
 <nav class="nav">
     <div class="container container--flex">
-        <img class="nav__logo" src="{{ logoSrc }}">
+        <a href="/"><img class="nav__logo" src="{{ logoSrc }}"></a>
         <ul class="nav__menu">
             <li class="nav__menu-item" *ngFor="let menuItem of menuItems">
                 <a matRipple href="{{ menuItem?.href }}">{{ menuItem?.name }}</a>

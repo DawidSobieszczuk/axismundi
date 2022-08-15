@@ -5,6 +5,7 @@
     background-color: color('black');
     color: color('white');
     justify-content: center;
+    height: 600px; // TODO reponsive
 
     @include breakpoint('small') {
         display: flex;
