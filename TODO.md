@@ -21,9 +21,10 @@ TODO list for Vesion 1.0.0
 ### In Progress
 - [ ] services (with interfaces)
   - [ ] menu
-  - [ ] option
+  - [x] option
   - [ ] social
   - [ ] article
+  - [x] user
 
 - [ ] create contact page
 
