@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../services/api.service';
+import { MenuService } from '../services/data/menu.service';
 import { OptionService } from '../services/data/option.service';
 
 @Component({
@@ -7,15 +7,6 @@ import { OptionService } from '../services/data/option.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
-  menuItems!: any[];
-
-  constructor(private apiService: ApiService, public optionService: OptionService) { }
-
-  ngOnInit(): void {
-    this.apiService.getMenu('nav').subscribe({
-      next: (v) => this.menuItems = v.data.items
-    });
-  }
-
+export class NavbarComponent {
+  constructor(public optionService: OptionService, public menuService: MenuService) { }
 }

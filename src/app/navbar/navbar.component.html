@@ -1,8 +1,8 @@
 <nav class="nav">
     <div class="container container--flex">
-        <a href="/"><img class="nav__logo" src="{{ optionService.get('logo')?.value }}"></a>
+        <a href="/"><img class="nav__logo" src="{{ optionService.getByName('logo')?.value }}"></a>
         <ul class="nav__menu">
-            <li class="nav__menu-item" *ngFor="let menuItem of menuItems">
+            <li class="nav__menu-item" *ngFor="let menuItem of menuService.getAll()">
                 <a matRipple href="{{ menuItem?.href }}">{{ menuItem?.name }}</a>
             </li>
         </ul>

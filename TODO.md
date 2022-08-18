@@ -20,7 +20,7 @@ TODO list for Vesion 1.0.0
 
 ### In Progress
 - [ ] services (with interfaces)
-  - [ ] menu
+  - [x] menu
   - [x] option
   - [ ] social
   - [ ] article
