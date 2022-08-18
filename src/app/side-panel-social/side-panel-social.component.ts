@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ApiService } from '../services/api.service';
-import { NotificationService } from '../services/notification.service';
+import { Subscription } from 'rxjs';
+import { Social } from '../models/social';
+import { SocialService } from '../services/data/social.service';
 
 @Component({
   selector: 'am-side-panel-social',
@@ -10,6 +11,8 @@ import { NotificationService } from '../services/notification.service';
 })
 export class SidePanelSocialComponent implements OnInit {
 
+  private _subscription!: Subscription;
+
   form!: FormGroup;
   idsToDeleteList: number[] = [];
   
@@ -17,24 +20,32 @@ export class SidePanelSocialComponent implements OnInit {
     return this.form.get('socials') as FormArray;
   }
   
-  constructor(private apiService: ApiService, private formBuilder: FormBuilder, private notificationService: NotificationService) { }
+  constructor(private socialService: SocialService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       'socials': this.formBuilder.array([])
     });
 
-    this.apiService.getSocials().subscribe({
+    this.refreshFromArray();
+
+    this._subscription = this.socialService.saveSubject.subscribe({
       next: (v) => {
-        v.data.forEach((element: {id: any, name: any, icon: any, href: any}) => {
-          this.socialsFormArray.push(this.formBuilder.group({
-            'id': [element.id],
-            'name': [element.name, Validators.required],
-            'icon': [element.icon, Validators.required],
-            'href': [element.href, Validators.required]
-          }))
-        });
+        if(v > 0) return;
+        this.refreshFromArray();
       }
+    });
+  }
+
+  private refreshFromArray() {
+    this.socialsFormArray.clear();
+    this.socialService.getAll().forEach((element: Social) => {
+      this.socialsFormArray.push(this.formBuilder.group({
+        'id': [element.id],
+        'name': [element.name, Validators.required],
+        'icon': [element.icon, Validators.required],
+        'href': [element.href, Validators.required]
+      }))
     });
   }
 
@@ -54,45 +65,25 @@ export class SidePanelSocialComponent implements OnInit {
   }
 
   formSubmit(): void {
-    this.idsToDeleteList.forEach(element => {
-      this.apiService.deleteSocial(element).subscribe({
-        next: (v) => {          
-            this.notificationService.open(v.message ? v.message : 'Element remove', 'success');
-        },
-        error: (e) => { 
-          this.notificationService.open(e.error.message ? e.error.message : 'Cannot remove element', 'error');
-        }
-      });
-    });
 
+    this.idsToDeleteList.forEach(element => {
+      this.socialService.delete(element);
+    });
     this.idsToDeleteList = [];
 
-    this.socialsFormArray.value.forEach((element: {id: any, name: any; icon: any, href: any}, index: any) => {
+    this.socialsFormArray.value.forEach((element: Social) => {
       var body = {
         'name': element.name,
         'icon': element.icon,
         'href': element.href
       }
-      if(element.id > 0) { // update
-        this.apiService.setSocial(element.id, body).subscribe({
-          next: (v) => { 
-            this.notificationService.open(v.message ? v.message : 'Update ' + element.name, 'success');
-          },
-          error: (e) => { 
-            this.notificationService.open(e.error.message ? e.error.message : 'Cannot update ' + element.name, 'error');
-          }
-        });
-      } else { // add new
-        this.apiService.addSocial(body).subscribe({
-          next: (v) => { 
-            this.socialsFormArray.value[index].id = v.data.id;
-            this.notificationService.open(v.message ? v.message : 'Add ' + element.name, 'success');
-          },
-          error: (e) => { 
-            this.notificationService.open(e.error.message ? e.error.message : 'Cannot add ' + element.name, 'error');
-          }
-        });
+      if(element.id > 0) { 
+        this.socialService.set(element.id, body);
+      } else { 
+        this.socialService.add(body);
       }
+
     });
+    this.socialService.saveAll();
   }
 }

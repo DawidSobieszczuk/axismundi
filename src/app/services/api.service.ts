@@ -88,28 +88,28 @@ export class ApiService {
   // }
 
   // Social
-  getSocials(): Observable<any> {
-    return this.http.get(this.baseUrl + 'socials');
-  }
+  // getSocials(): Observable<any> {
+  //   return this.http.get(this.baseUrl + 'socials');
+  // }
 
-  getSocial(id: number): Observable<any> {
-    return this.http.get(this.baseUrl + 'socials/' + id);
-  }
+  // getSocial(id: number): Observable<any> {
+  //   return this.http.get(this.baseUrl + 'socials/' + id);
+  // }
 
-  setSocial(id: number, body: any): Observable<any> {
-    return this.http.put(this.baseUrl + 'socials/' + id, body);
-  }
+  // setSocial(id: number, body: any): Observable<any> {
+  //   return this.http.put(this.baseUrl + 'socials/' + id, body);
+  // }
 
-  addSocial(body: any): Observable<any> {
-    return this.http.post(this.baseUrl + 'socials', body);
-  }
+  // addSocial(body: any): Observable<any> {
+  //   return this.http.post(this.baseUrl + 'socials', body);
+  // }
 
-  deleteSocial(id: number): Observable<any> {
-    return this.http.delete(this.baseUrl + 'socials/' + id);
-  }
+  // deleteSocial(id: number): Observable<any> {
+  //   return this.http.delete(this.baseUrl + 'socials/' + id);
+  // }
 
   // Files
-  uploadFile(body: any): Observable<any> {
-    return this.http.post(this.baseUrl + 'files', body);
-  }
+  // uploadFile(body: any): Observable<any> {
+  //   return this.http.post(this.baseUrl + 'files', body);
+  // }
 }

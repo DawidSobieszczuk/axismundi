@@ -1,5 +1,5 @@
 <div class="social-icons">
-    <a matRipple *ngFor="let social of socials" href="{{ social['href'] }}"><i class="{{ social['icon'] }}"></i></a>
+    <a matRipple *ngFor="let social of socialService.getAll()" href="{{ social.href }}"><i class="{{ social.icon }}"></i></a>
 </div>
 
 <div class="copyright">{{ optionSerive.getByName('copyright')?.value }}</div>

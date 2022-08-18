@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { Menu, MenuItem } from '../models/menu';
 import { MenuService } from '../services/data/menu.service';
 
 @Component({
@@ -7,8 +9,9 @@ import { MenuService } from '../services/data/menu.service';
   templateUrl: './side-panel-menu.component.html',
   styleUrls: ['./side-panel-menu.component.scss']
 })
-export class SidePanelMenuComponent implements OnInit {
+export class SidePanelMenuComponent implements OnInit, OnDestroy {
 
+  private _subscription!: Subscription;
   private _menuId!: number;
 
   form!: FormGroup
@@ -25,7 +28,19 @@ export class SidePanelMenuComponent implements OnInit {
       'menu-items': this.formBuilder.array([])
     });
    
-    this.menuService.getAll().forEach((element: {id: any, menu_id: any, name: any, href: any}) => {
+    this.refreshFormArray();
+
+    this._subscription = this.menuService.saveSubject.subscribe({
+      next: (v) => {
+        if(v > 0) return;
+        this.refreshFormArray();
+      }
+    });
+  }
+
+  private refreshFormArray() {
+    this.menuItemsFormArray.clear();
+    this.menuService.getAll().forEach((element: MenuItem) => {
       this._menuId = element.menu_id;
       this.menuItemsFormArray.push(this.formBuilder.group({
         'id': [element.id],
@@ -35,19 +50,22 @@ export class SidePanelMenuComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this._subscription.unsubscribe();
+  }
+
   formSubmit(): void {
     this.idsForDelete.forEach(element => {
       this.menuService.delete(element);
     });
-
     this.idsForDelete = [];
 
-    this.menuItemsFormArray.value.forEach((element: {id: any, name: any, href: any}, index: any) => {
-      var data = {
-        'menu_id': this._menuId,
-        'name': element.name,
-        'href': element.href,
-      };
+    this.menuItemsFormArray.value.forEach((element: MenuItem) => {
+      let data = {
+        menu_id: this._menuId,
+        name: element.name,
+        href: element.href,
+      }
 
       if(element.id > 0) { // update
        this.menuService.set(element.id, data);

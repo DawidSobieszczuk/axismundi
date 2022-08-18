@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observer } from 'rxjs';
+import { Observer, Subject } from 'rxjs';
 import { ApiResponse } from 'src/app/models/responses';
 import { NotificationService } from '../notification.service';
 
@@ -13,10 +13,12 @@ export abstract class DataAbstractService<T> {
     next: (v) => {
       this._savingCount--;
       this.notificationService.open(v.message, 'success');
+      this.saveSubject.next(this._savingCount);
     },
     error: (e) => {
       this._savingCount--;
       this.notificationService.open(e.error.message, 'error');
+      this.saveSubject.next(this._savingCount);
     }
   }
 
@@ -37,6 +39,11 @@ export abstract class DataAbstractService<T> {
   get isSaving(): boolean { return this._savingCount > 0 }
   get isLoading(): boolean { return this._isLoading }
   get isLoaded(): boolean { return this._isLoaded }  
+
+  /**
+   * Value represente saving count whene 0 everything is saved
+   */
+  saveSubject: Subject<number> = new Subject<number>();
   
   constructor(private http: HttpClient, private notificationService: NotificationService) { }
 
@@ -106,7 +113,21 @@ export abstract class DataAbstractService<T> {
   }
   private saveAdd(element: any): void {
     this._savingCount++;
-    this.http.post<ApiResponse>(this._url, element).subscribe(this.saveObserver);
+    this.http.post<ApiResponse>(this._url, element).subscribe({
+      next: (v: any) => {
+        let index = this._elements.indexOf(element);
+        (this._elements[index] as any).id = v.data.id;
+
+        this._savingCount--;
+        this.notificationService.open(v.message, 'success');
+        this.saveSubject.next(this._savingCount);
+      },
+      error: (e) => {
+        this._savingCount--;
+        this.notificationService.open(e.error.message, 'error');
+        this.saveSubject.next(this._savingCount);
+      }
+    });
   }
   private saveDelete(id: number): void {
     this._savingCount++;
