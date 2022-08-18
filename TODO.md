@@ -22,7 +22,7 @@ TODO list for Vesion 1.0.0
 - [ ] services (with interfaces)
   - [x] menu
   - [x] option
-  - [ ] social
+  - [x] social
   - [ ] article
   - [x] user
 
