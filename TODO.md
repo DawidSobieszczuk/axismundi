@@ -7,12 +7,17 @@ TODO list for Vesion 1.0.0
   - [ ] check for every component if user has permission, if not hide this component
   - [ ] cleanup
   - [ ] file manager
+  - [ ] seperate article to article and articles
+  - [ ] indicate and disable save button when saving
 
 - [ ] article-editor
   - [ ] check if user has permision to publish article, if not hide publish button
 
 - [ ] article
   - [ ] comments
+
+- [ ] articles
+  -[ ] search
 
 - [ ] article search filter
 
