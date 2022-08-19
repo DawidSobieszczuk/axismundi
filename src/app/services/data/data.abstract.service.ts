@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observer, Subject } from 'rxjs';
+import { forkJoin, Observer, Subject } from 'rxjs';
 import { ApiResponse } from 'src/app/models/responses';
 import { NotificationService } from '../notification.service';
 
@@ -8,20 +8,6 @@ import { NotificationService } from '../notification.service';
   providedIn: 'root'
 })
 export abstract class DataAbstractService<T> {
-
-  private saveObserver: Partial<Observer<ApiResponse>> = {
-    next: (v) => {
-      this._savingCount--;
-      this.notificationService.open(v.message, 'success');
-      this.saveSubject.next(this._savingCount);
-    },
-    error: (e) => {
-      this._savingCount--;
-      this.notificationService.open(e.error.message, 'error');
-      this.saveSubject.next(this._savingCount);
-    }
-  }
-
   protected ERROR_NOT_LOADED: string = `${this.constructor.name}: elements not loaded.`;
   protected ERROR_NOT_FOUND: string = `${this.constructor.name}: elements not found.`;
   protected ERROR_IS_SAVING: string = `${this.constructor.name}: saving`;
@@ -45,7 +31,7 @@ export abstract class DataAbstractService<T> {
    */
   saveSubject: Subject<number> = new Subject<number>();
   
-  constructor(private http: HttpClient, private notificationService: NotificationService) { }
+  constructor(protected http: HttpClient, protected notificationService: NotificationService) { }
 
   getAll(): T[] {
     if(this._elements == undefined) throw new Error(this.ERROR_NOT_LOADED);
@@ -66,11 +52,11 @@ export abstract class DataAbstractService<T> {
   add(data: T): void {
     this._elements.push(data);
   }
-  addAndSave(data: T): void {
+  addAndSave(data: T): Promise<T> {
     if(this.isSaving) throw new Error(this.ERROR_IS_SAVING);
 
     this.add(data);
-    this.saveAdd(this._elements[this._elements.length-1]);
+    return this.saveAdd(this._elements[this._elements.length-1]);
   }
   delete(id: number): void {
     let element = this.get(id);
@@ -81,57 +67,97 @@ export abstract class DataAbstractService<T> {
     this._elements.splice(index, 1);
   }
 
-  saveAll(): void {
+  saveAll(): Promise<any> {
     if(this._elements == undefined) throw new Error(this.ERROR_NOT_LOADED);
     if(this.isSaving) throw new Error(this.ERROR_IS_SAVING);
 
+    let promises: Promise<any>[] = [];
+
     this._elements.forEach((element: any) => {
       if(element.id < 0) {
-        this.saveAdd(element);
+        promises.push(this.saveAdd(element));
       } else {
-        this.saveUpdate(element);
+        promises.push(this.saveUpdate(element));
       }
     });
 
     this._idsToDelete.forEach(element => {
-      this.saveDelete(element);
+      promises.push(this.saveDelete(element));
     })
     this._idsToDelete = [];
+
+    return Promise.all(promises);
   }
-  save(id: number) {
+  save(id: number): Promise<T> {
     if(this._elements == undefined) throw new Error(this.ERROR_NOT_LOADED);
     if(this.isSaving) throw new Error(this.ERROR_IS_SAVING);
 
     let element = this.get(id);
     if(!element) throw new Error(this.ERROR_NOT_FOUND);
 
-    this.saveUpdate(element);
+    return this.saveUpdate(element);
   }
-  private saveUpdate(element: any): void {
+  private saveUpdate(element: any): Promise<T> {
     this._savingCount++;
-    this.http.put<ApiResponse>(this._url + `/${element.id}`, element).subscribe(this.saveObserver);
-  }
-  private saveAdd(element: any): void {
-    this._savingCount++;
-    this.http.post<ApiResponse>(this._url, element).subscribe({
-      next: (v: any) => {
-        let index = this._elements.indexOf(element);
-        (this._elements[index] as any).id = v.data.id;
-
-        this._savingCount--;
-        this.notificationService.open(v.message, 'success');
-        this.saveSubject.next(this._savingCount);
-      },
-      error: (e) => {
-        this._savingCount--;
-        this.notificationService.open(e.error.message, 'error');
-        this.saveSubject.next(this._savingCount);
-      }
+    return new Promise<T>((resolve, reject) => {
+      this.http.put<ApiResponse>(this._url + `/${element.id}`, element).subscribe({
+        next: (v) => {
+          this._savingCount--;
+          this.notificationService.open(v.message, 'success');
+          this.saveSubject.next(this._savingCount);
+          resolve(element);
+        },
+        error: (e) => {
+          this._savingCount--;
+          this.notificationService.open(e.error.message, 'error');
+          this.saveSubject.next(this._savingCount);
+          reject(e);
+        }
+      });
     });
   }
-  private saveDelete(id: number): void {
+  private saveAdd(element: any): Promise<T> {
     this._savingCount++;
-    this.http.delete<ApiResponse>(this._url + `/${id}`).subscribe(this.saveObserver);
+
+    return new Promise<T>((resolve, reject) => {
+      this.http.post<ApiResponse>(this._url, element).subscribe({
+        next: (v: any) => {
+          let index = this._elements.indexOf(element);
+          (this._elements[index] as any).id = v.data.id;
+  
+          this._savingCount--;
+          this.notificationService.open(v.message, 'success');
+          this.saveSubject.next(this._savingCount);
+          resolve(element);
+        },
+        error: (e) => {
+          this._savingCount--;
+          this.notificationService.open(e.error.message, 'error');
+          this.saveSubject.next(this._savingCount);
+          reject(e);
+        }
+      })
+    });
+  }
+  private saveDelete(id: number): Promise<void> {
+    this._savingCount++;
+    ;
+    return new Promise<void>((resolve, reject) => {
+      this.http.delete<ApiResponse>(this._url + `/${id}`).subscribe({
+        next: (v) => {
+          this._savingCount--;
+          this.notificationService.open(v.message, 'success');
+          this.saveSubject.next(this._savingCount);
+          resolve();
+        },
+        error: (e) => {
+          this._savingCount--;
+          this.notificationService.open(e.error.message, 'error');
+          this.saveSubject.next(this._savingCount);
+          reject(e);
+        }
+      });
+    });
   }
 
   load(): void { 

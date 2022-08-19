@@ -9,7 +9,7 @@ import { MenuService } from '../services/data/menu.service';
   templateUrl: './side-panel-menu.component.html',
   styleUrls: ['./side-panel-menu.component.scss']
 })
-export class SidePanelMenuComponent implements OnInit, OnDestroy {
+export class SidePanelMenuComponent implements OnInit {
 
   private _subscription!: Subscription;
   private _menuId!: number;
@@ -29,13 +29,6 @@ export class SidePanelMenuComponent implements OnInit, OnDestroy {
     });
    
     this.refreshFormArray();
-
-    this._subscription = this.menuService.saveSubject.subscribe({
-      next: (v) => {
-        if(v > 0) return;
-        this.refreshFormArray();
-      }
-    });
   }
 
   private refreshFormArray() {
@@ -48,10 +41,6 @@ export class SidePanelMenuComponent implements OnInit, OnDestroy {
         'href': [element.href, Validators.required],
       }))
     });
-  }
-
-  ngOnDestroy(): void {
-    this._subscription.unsubscribe();
   }
 
   formSubmit(): void {
@@ -74,7 +63,9 @@ export class SidePanelMenuComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.menuService.saveAll();
+    this.menuService.saveAll().then(() => {
+      this.refreshFormArray();
+    });
   }
 
   addItem(): void {

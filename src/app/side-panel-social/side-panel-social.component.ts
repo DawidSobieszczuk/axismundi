@@ -28,13 +28,6 @@ export class SidePanelSocialComponent implements OnInit {
     });
 
     this.refreshFromArray();
-
-    this._subscription = this.socialService.saveSubject.subscribe({
-      next: (v) => {
-        if(v > 0) return;
-        this.refreshFromArray();
-      }
-    });
   }
 
   private refreshFromArray() {
@@ -84,6 +77,8 @@ export class SidePanelSocialComponent implements OnInit {
       }
 
     });
-    this.socialService.saveAll();
+    this.socialService.saveAll().then(() => {
+      this.refreshFromArray();
+    });
   }
 }
