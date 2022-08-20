@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ApiResponse } from '../models/responses';
 import { User } from '../models/user';
-import { ApiService } from '../services/api.service';
 import { NotificationService } from '../services/notification.service';
 import { SidePanelService } from '../services/side-panel.service';
 import { UserService } from '../services/user.service';
@@ -23,7 +22,7 @@ export class SidePanelUserComponent implements OnInit, OnDestroy {
 
   userSubjectSubscription!: Subscription;
 
-  constructor(private apiService: ApiService, private userService: UserService, private sidePanelService: SidePanelService, private formBuilder: FormBuilder, private notificationService: NotificationService) { }
+  constructor(private userService: UserService, private sidePanelService: SidePanelService, private formBuilder: FormBuilder, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({

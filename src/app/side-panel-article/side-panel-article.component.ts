@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { COMMA, ENTER, V } from '@angular/cdk/keycodes';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService } from '../services/api.service';
 import { NotificationService } from '../services/notification.service';
 import { SidePanelService } from '../services/side-panel.service';
 import { ArticleService } from '../services/data/article.service';

@@ -22,6 +22,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatListModule } from '@angular/material/list';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -41,6 +42,7 @@ import { NotificationComponent } from './notification/notification.component';
 import { ArticleEditorComponent } from './article-editor/article-editor.component';
 import { SidePanelMenuComponent } from './side-panel-menu/side-panel-menu.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { SidePanelFilesComponent } from './side-panel-files/side-panel-files.component';
 
 
 @NgModule({
@@ -63,6 +65,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     ArticleEditorComponent,
     SidePanelMenuComponent,
     NotFoundComponent,
+    SidePanelFilesComponent,
   ],
   imports: [
     BrowserModule,
@@ -86,6 +89,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     MatProgressBarModule,
     MatChipsModule,
     MatProgressSpinnerModule,
+    MatListModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
