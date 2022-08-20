@@ -20,7 +20,7 @@ export class SidePanelSocialComponent implements OnInit {
     return this.form.get('socials') as FormArray;
   }
   
-  constructor(private socialService: SocialService, private formBuilder: FormBuilder) { }
+  constructor(public socialService: SocialService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({

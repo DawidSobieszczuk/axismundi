@@ -1,5 +1,5 @@
 <div class="container">
     <div *ngIf="!userService.isLogged" class="article" [innerHTML]="html"></div>
-    <am-article-editor *ngIf="userService.isLogged" [article]="article" (save)="editorSave($event)"></am-article-editor>
+    <am-article-editor *ngIf="userService.isLogged"></am-article-editor>
 </div> 
 

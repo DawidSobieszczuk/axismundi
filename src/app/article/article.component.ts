@@ -1,12 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { ApiService } from '../services/api.service';
 import { Article } from '../models/article';
-import { NotificationService } from '../services/notification.service';
 import { FormBuilder } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UserService } from '../services/user.service';
+import { ArticleService } from '../services/data/article.service';
 
 
 @Component({
@@ -14,31 +13,37 @@ import { UserService } from '../services/user.service';
   templateUrl: './article.component.html',
   styleUrls: ['./article.component.scss'],
 })
-export class ArticleComponent implements OnInit {
-  article!: Article;
-  
+export class ArticleComponent implements OnInit {  
   html!: any;
-  editor!: any;
 
-  constructor(private sanitaze:DomSanitizer, private route: ActivatedRoute, private apiService: ApiService, private formBulder: FormBuilder, public userService: UserService, private notificationService: NotificationService) { }
-
-  ngOnInit(): void {
-    this.route?.data.subscribe({
-      next: (v) => {
-        this.article = v.article.data;        
-        this.html = this.convertEditorDataToHTML(this.article.content);
-      }
-    });
+  get article(): Article {
+    return this.articleService.get(this.route.snapshot.params.id) || {} as Article;
   }
 
-  editorSave(article: Article): void {
-    this.article = article;
+  constructor(private route: ActivatedRoute, private router: Router, private sanitaze:DomSanitizer, private formBulder: FormBuilder, private articleService: ArticleService, public userService: UserService) { }
+
+  ngOnInit(): void {    
+    if(Object.keys(this.article).length === 0) {
+      this.router.navigate(['404']);
+      return;
+    }
+    console.log('eee');
+
     this.html = this.convertEditorDataToHTML(this.article.content);
+
+    this.articleService.saveSubject.subscribe({
+      next: (v) => {
+        if(v > 0) return;
+        this.convertEditorDataToHTML(this.article.content);
+      }
+    });
   }
 
   convertEditorDataToHTML(blocksString: string) {
     let html = '';
     let blocks: [] = JSON.parse(blocksString).blocks;
+
+    if(!blocks) return '';
 
     blocks.forEach((block: any) => {
       switch(block.type) {

@@ -21,7 +21,7 @@ export class SidePanelMenuComponent implements OnInit {
     return this.form.get('menu-items') as FormArray;
   }
 
-  constructor(private menuService: MenuService, private formBuilder: FormBuilder) { }
+  constructor(public menuService: MenuService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({

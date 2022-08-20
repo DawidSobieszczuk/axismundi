@@ -1,5 +1,5 @@
 <div class="container container--full container--flex">
-    <a href="article/{{ article.id }}" class="article" *ngFor="let article of pageSlice$ | async">
+    <a href="article/{{ article.id }}" class="article" *ngFor="let article of pageSlice">
         <mat-card amMaterialElevation [ngClass]="{ draft: article.is_draft }">
             <mat-card-header>
                 <mat-card-title>{{ article.title }}</mat-card-title>
@@ -10,7 +10,7 @@
         </mat-card>        
     </a>
 
-    <mat-paginator class="paginator" [length]="(articles$ | async)?.length"
+    <mat-paginator class="paginator" [length]="getArticles().length"
         [pageSize]="pageSize"
         [pageSizeOptions]="pageSizeOptions"
         (page)="onPageChange($event)"

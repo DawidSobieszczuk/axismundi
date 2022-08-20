@@ -1,5 +1,6 @@
 import { HttpEventType } from '@angular/common/http';
 import { AfterContentInit, AfterViewInit, Component, OnInit } from '@angular/core';
+import { ArticleService } from './services/data/article.service';
 import { MenuService } from './services/data/menu.service';
 import { OptionService } from './services/data/option.service';
 import { SocialService } from './services/data/social.service';
@@ -16,13 +17,15 @@ export class AppComponent implements OnInit {
   get isLoaded(): boolean {
     return this.optionService.isLoaded 
         && this.menuService.isLoaded
-        && this.socialService.isLoaded;
+        && this.socialService.isLoaded
+        && this.articleService.isLoaded;
   }
 
   constructor(
     private socialService: SocialService, 
     private optionService: OptionService, 
     private menuService: MenuService, 
+    private articleService: ArticleService,
     public userService: UserService,
     public sidePanelService: SidePanelService
   ) { }
@@ -31,6 +34,7 @@ export class AppComponent implements OnInit {
     this.optionService.load();
     this.menuService.load();
     this.socialService.load();
+    this.articleService.load();
 
     this.userService.checkIsUserLogged();
   }

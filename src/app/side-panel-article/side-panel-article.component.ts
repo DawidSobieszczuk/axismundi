@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
 import { NotificationService } from '../services/notification.service';
 import { SidePanelService } from '../services/side-panel.service';
+import { ArticleService } from '../services/data/article.service';
+import { Article } from '../models/article';
 
 @Component({
   selector: 'am-side-panel-article',
@@ -13,7 +15,7 @@ import { SidePanelService } from '../services/side-panel.service';
 })
 export class SidePanelArticleComponent implements OnInit {
 
-  constructor(private router: Router, private route: ActivatedRoute, private sidePanelService: SidePanelService, private apiService: ApiService, private formBuilder: FormBuilder, private noificationService: NotificationService) { }
+  constructor(private router: Router, private route: ActivatedRoute, public articleService: ArticleService, private sidePanelService: SidePanelService, private formBuilder: FormBuilder, private noificationService: NotificationService) { }
   showDrafts = false;
 
   articleForm!: FormGroup;
@@ -47,24 +49,14 @@ export class SidePanelArticleComponent implements OnInit {
       tags: [[], Validators.required],
     })
 
-    setTimeout(() => {
-      // wait a tick, then articleId will have value
-      // TODO: Sometimes dont show values in form
-      // make article service for handle current open article data
-
-      if(!this.articleId) return;
-
-      this.apiService.getArticle(this.articleId).subscribe({
-        next: (v) => {
-            this.articleForm = this.formBuilder.group({
-            title: [v.data.title, Validators.required],
-            thumbnail: [v.data.thumbnail, Validators.required],
-            excerpt: [v.data.excerpt, Validators.required],
-            categories: [v.data.categories, Validators.required],
-            tags: [v.data.tags, Validators.required],
-          });
-        }
-      });
+    // TODO: Later seperate to other component, then this will by not load, when not needed.
+    let article = this.articleService.get(this.articleId) || {} as Article; // Empty article object when article not found 
+    this.articleForm = this.formBuilder.group({
+      title: [article.title, Validators.required],
+      thumbnail: [article.thumbnail, Validators.required],
+      excerpt: [article.excerpt, Validators.required],
+      categories: [article.categories, Validators.required],
+      tags: [article.tags, Validators.required],
     });
   }
 
@@ -74,33 +66,28 @@ export class SidePanelArticleComponent implements OnInit {
   }
 
   addNewArticle(): void {
-    this.apiService.addArticle({
-      title: 'Tytuł artykułu',
-      thumbnail: 'ng/assets/1600x900.png',
-      excerpt: 'Fragment artykułu',
-      content: '{ }',
-      categories: [],
-      tags: []
-    }).subscribe({
-      next: (v: any) =>  { 
-        this.noificationService.open(v.message ? v.message : "Create new article", 'success');
+    this.articleService.addAndSave({
+        title: 'Tytuł artykułu',
+        thumbnail: 'ng/assets/1600x900.png',
+        excerpt: 'Fragment artykułu',
+        content: '{ }',
+        categories: new Array<string>(),
+        tags: new Array<string>(),
+    } as Article).then((article) => {
         this.sidePanelService.isOpened = false; 
-        this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => this.router.navigate(['article/' + v.data.id])); 
-      }
+        this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => this.router.navigate(['article/' + article.id])); 
     });
   }
 
   updateArticle(): void {
-    this.apiService.setArticle(this.articleId, {
+    this.articleService.set(this.articleId, {
       title: this.articleForm.get('title')?.value,
       thumbnail: this.articleForm.get('thumbnail')?.value,
       excerpt: this.articleForm.get('excerpt')?.value,
       categories: this.articleForm.get('categories')?.value,
       tags: this.articleForm.get('tags')?.value,
-    }).subscribe({
-      next: (v: any) => this.noificationService.open(v.message || 'Update article', 'success'),
-      error: (e: any) => this.noificationService.open(e.error.message || 'Cannot update article', 'error')
-    });
+    } as Article);
+    this.articleService.save(this.articleId);
   }
 
   addCategory(event: any): void {

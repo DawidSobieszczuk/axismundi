@@ -16,11 +16,14 @@ export class MenuService extends DataAbstractService<MenuItem> {
       name: string, 
       href: string,
     }): void { 
-      super.set(id, {
+      let menuitem = this.get(id);
+      if(!menuitem) throw new Error(this.ERROR_NOT_FOUND);
+
+      super.setElement(id, {
         id: id,
-        menu_id: data.menu_id,
-        name: data.name,
-        href: data.href,
+        menu_id: data.menu_id || menuitem.menu_id,
+        name: data.name || menuitem.name,
+        href: data.href || menuitem.href,
       } as MenuItem); 
     }
 
@@ -30,11 +33,11 @@ export class MenuService extends DataAbstractService<MenuItem> {
       name: string,
       href: string, 
     }): void { 
-      super.add({
+      super.addElement({
         id: -1,
-        menu_id: data.menu_id,
-        name: data.name,
-        href: data.href,
+        menu_id: data.menu_id || -1,
+        name: data.name || '',
+        href: data.href || '',
       } as MenuItem); 
     }
 }

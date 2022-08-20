@@ -20,10 +20,13 @@ export class OptionService extends DataAbstractService<Option> {
       name: string
       value: string 
     }): void {
-      super.set(id, {
+      let option = this.get(id);
+      if(!option) throw new Error(this.ERROR_NOT_FOUND);
+
+      super.setElement(id, {
         id: id,
-        name: data.name,
-        value: data.value,
+        name: data.name || option.name,
+        value: data.value || option.value,
       } as Option);
      }
 
@@ -32,10 +35,10 @@ export class OptionService extends DataAbstractService<Option> {
       name: string,
       value: string, 
     }): void {
-      super.add({
+      super.addElement({
         id: -1,
-        name: data.name,
-        value: data.value,
+        name: data.name || '',
+        value: data.value || '',
       } as Option); 
     }
 }

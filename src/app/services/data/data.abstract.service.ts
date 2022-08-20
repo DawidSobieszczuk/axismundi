@@ -9,7 +9,7 @@ import { NotificationService } from '../notification.service';
 })
 export abstract class DataAbstractService<T> {
   protected ERROR_NOT_LOADED: string = `${this.constructor.name}: elements not loaded.`;
-  protected ERROR_NOT_FOUND: string = `${this.constructor.name}: elements not found.`;
+  protected ERROR_NOT_FOUND: string = `${this.constructor.name}: element not found.`;
   protected ERROR_IS_SAVING: string = `${this.constructor.name}: saving`;
   protected ERROR_IS_LOADING: string = `${this.constructor.name}: loading`;
   protected ERROR_IS_LOADDED: string = `${this.constructor.name}: loaded`;
@@ -42,16 +42,19 @@ export abstract class DataAbstractService<T> {
     return this._elements.find((element: any) => element.id == id);
   }
 
-  set(id: number, data: T): void {
+  abstract set(id: number, data: {}): void;
+  protected setElement(id: number, newElement: T) {
     let element = this.get(id);
     if(!element) throw new Error(this.ERROR_NOT_FOUND);
 
     let index = this._elements.indexOf(element);
-    this._elements[index] = data;
+    this._elements[index] = newElement;
   }
-  add(data: T): void {
-    this._elements.push(data);
+  abstract add(data: {}): void;
+  protected addElement(element: T) {
+      this._elements.push(element);
   }
+
   addAndSave(data: T): Promise<T> {
     if(this.isSaving) throw new Error(this.ERROR_IS_SAVING);
 

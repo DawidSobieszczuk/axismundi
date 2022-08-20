@@ -16,11 +16,14 @@ export class SocialService extends DataAbstractService<Social> {
       icon: string,
       href: string,
     }): void {
-      super.set(id, {
+      let social = this.get(id);
+      if(!social) throw new Error(this.ERROR_NOT_FOUND);
+
+      super.setElement(id, {
         id: id,
-        name: data.name,
-        icon: data.icon,
-        href: data.href,
+        name: data.name || social.name,
+        icon: data.icon || social.icon,
+        href: data.href || social.href,
       } as Social);
      }
 
@@ -30,11 +33,11 @@ export class SocialService extends DataAbstractService<Social> {
       icon: string,
       href: string,
     }): void {
-      super.add({
+      super.addElement({
         id: -1,
-        name: data.name,
-        icon: data.icon,
-        href: data.href,
+        name: data.name || '',
+        icon: data.icon || '',
+        href: data.href || '',
       } as Social); 
     }
 }

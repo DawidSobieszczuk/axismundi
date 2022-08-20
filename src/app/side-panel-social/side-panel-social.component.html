@@ -22,7 +22,7 @@
         </div>
         <mat-action-row>
             <button mat-raised-button (click)="addSocial()" type="button">Dodaj</button>
-            <button mat-raised-button [disabled]="form.invalid" type="submit" >Zapisz</button>
+            <button mat-raised-button [disabled]="form.invalid || socialService.isSaving" type="submit" >Zapisz</button>
         </mat-action-row>
     </form>
 </mat-expansion-panel>
