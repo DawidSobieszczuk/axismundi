@@ -6,7 +6,6 @@ TODO list for Vesion 1.0.0
 - [ ] side-panel (admin-panel)
   - [ ] check for every component if user has permission, if not hide this component
   - [ ] cleanup
-  - [ ] file manager
   - [ ] seperate article to article and articles
   - [ ] indicate and disable save button when saving
 
@@ -24,13 +23,9 @@ TODO list for Vesion 1.0.0
 - [ ] error pages
 
 ### In Progress
-- [ ] services (with interfaces)
-  - [x] menu
-  - [x] option
-  - [x] social
-  - [ ] article
-  - [x] user
-
+- [ ] side-panel (admin-panel)
+  - [ ] file manager
+  
 - [ ] create contact page
 
 ### Done ✓
@@ -42,6 +37,13 @@ TODO list for Vesion 1.0.0
 - [x] 404 not found page
 
 - [x] snackbar - succes/error messages
+
+- [x] services (with interfaces)
+  - [x] menu
+  - [x] option
+  - [x] social
+  - [x] article
+  - [x] user
 
 - [ ] article
   - [x] try CKEditor
