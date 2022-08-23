@@ -3,44 +3,23 @@ import { Injectable } from '@angular/core';
 import { forkJoin, Observer, Subject } from 'rxjs';
 import { ApiResponse } from 'src/app/models/responses';
 import { NotificationService } from '../notification.service';
+import { LoadDataAbstractService } from './load-data.abstract.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export abstract class DataAbstractService<T> {
-  protected ERROR_NOT_LOADED: string = `${this.constructor.name}: elements not loaded.`;
+export abstract class DataAbstractService<T> extends LoadDataAbstractService<T> {
   protected ERROR_NOT_FOUND: string = `${this.constructor.name}: element not found.`;
-  protected ERROR_IS_SAVING: string = `${this.constructor.name}: saving`;
-  protected ERROR_IS_LOADING: string = `${this.constructor.name}: loading`;
-  protected ERROR_IS_LOADDED: string = `${this.constructor.name}: loaded`;
 
-  protected _elements!: Array<T>;
   protected _idsToDelete: Array<number> = [];
-
   protected _savingCount = 0;
-  protected _isLoading: boolean = false;
-  protected _isLoaded: boolean = false;
-  protected _url!: string;
 
   get isSaving(): boolean { return this._savingCount > 0 }
-  get isLoading(): boolean { return this._isLoading }
-  get isLoaded(): boolean { return this._isLoaded }  
 
   /**
    * Value represente saving count whene 0 everything is saved
    */
   saveSubject: Subject<number> = new Subject<number>();
-  
-  constructor(protected http: HttpClient, protected notificationService: NotificationService) { }
-
-  getAll(): T[] {
-    if(this._elements == undefined) throw new Error(this.ERROR_NOT_LOADED);
-    return this._elements;
-  }
-  get(id: number): T | undefined {
-    if(this._elements == undefined) throw new Error(this.ERROR_NOT_LOADED);
-    return this._elements.find((element: any) => element.id == id);
-  }
 
   abstract set(id: number, data: {}): void;
   protected setElement(id: number, newElement: T) {
@@ -161,25 +140,5 @@ export abstract class DataAbstractService<T> {
         }
       });
     });
-  }
-
-  load(): void { 
-    if(this.isLoading) throw new Error(this.ERROR_IS_LOADING);
-    if(this.isLoaded) throw new Error(this.ERROR_IS_LOADDED);
-
-    this._isLoading = true;
-    this.http.get<ApiResponse>(this._url).subscribe({
-      next: (v) => {
-        this._isLoaded = true;
-        this._isLoading = false;
-
-        this._elements = v.data;
-      }
-    });
-  }
-  reload(): void { 
-    this._isLoading = false;
-    this._isLoaded = false;
-    this.load();
   }
 }

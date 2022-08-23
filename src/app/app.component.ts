@@ -4,6 +4,7 @@ import { ArticleService } from './services/data/article.service';
 import { MenuService } from './services/data/menu.service';
 import { OptionService } from './services/data/option.service';
 import { SocialService } from './services/data/social.service';
+import { FileService } from './services/file.service';
 import { SidePanelService } from './services/side-panel.service';
 import { UserService } from './services/user.service';
 
@@ -18,7 +19,8 @@ export class AppComponent implements OnInit {
     return this.optionService.isLoaded 
         && this.menuService.isLoaded
         && this.socialService.isLoaded
-        && this.articleService.isLoaded;
+        && this.articleService.isLoaded
+        && this.fileService.isLoaded;
   }
 
   constructor(
@@ -26,6 +28,7 @@ export class AppComponent implements OnInit {
     private optionService: OptionService, 
     private menuService: MenuService, 
     private articleService: ArticleService,
+    private fileService: FileService,
     public userService: UserService,
     public sidePanelService: SidePanelService
   ) { }
@@ -35,6 +38,7 @@ export class AppComponent implements OnInit {
     this.menuService.load();
     this.socialService.load();
     this.articleService.load();
+    this.fileService.load();
 
     this.userService.checkIsUserLogged();
   }

@@ -8,6 +8,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import  { ClipboardModule } from '@angular/cdk/clipboard';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -42,7 +44,6 @@ import { NotificationComponent } from './notification/notification.component';
 import { ArticleEditorComponent } from './article-editor/article-editor.component';
 import { SidePanelMenuComponent } from './side-panel-menu/side-panel-menu.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { SidePanelFilesComponent } from './side-panel-files/side-panel-files.component';
 
 
 @NgModule({
@@ -65,7 +66,6 @@ import { SidePanelFilesComponent } from './side-panel-files/side-panel-files.com
     ArticleEditorComponent,
     SidePanelMenuComponent,
     NotFoundComponent,
-    SidePanelFilesComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,6 +74,8 @@ import { SidePanelFilesComponent } from './side-panel-files/side-panel-files.com
     
     ReactiveFormsModule,
     BrowserAnimationsModule,
+
+    ClipboardModule,
 
     MatFormFieldModule,
     MatInputModule,

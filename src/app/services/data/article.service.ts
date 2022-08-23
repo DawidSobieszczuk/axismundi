@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Article } from 'src/app/models/article';
 import { ApiResponse } from 'src/app/models/responses';
-import { DataAbstractService } from './data.abstract.service';
+import { DataAbstractService } from '../abstract/data.abstract.service';
 
 @Injectable({
   providedIn: 'root'

@@ -27,7 +27,6 @@ export class ArticleComponent implements OnInit {
       this.router.navigate(['404']);
       return;
     }
-    console.log('eee');
 
     this.html = this.convertEditorDataToHTML(this.article.content);
 
